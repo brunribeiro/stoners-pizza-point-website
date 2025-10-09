@@ -1,0 +1,26 @@
+import React from 'react';
+
+const LogoBlue = ({ ...others }) => {
+  return (
+    <svg
+      width='56'
+      height='52'
+      viewBox='0 0 56 52'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+      {...others}
+    >
+      <circle cx='42.5' cy='13.5' r='10.5' stroke='#e30613' strokeWidth='6' />
+      <circle cx='42.5' cy='13.5' r='10.5' stroke='#e30613' strokeWidth='6' />
+      <circle cx='42.5' cy='13.5' r='10.5' stroke='#e30613' strokeWidth='6' />
+      <circle cx='12' cy='15' r='9' stroke='#e30613' strokeWidth='6' />
+      <circle cx='12' cy='15' r='9' stroke='#e30613' strokeWidth='6' />
+      <circle cx='12' cy='15' r='9' stroke='#e30613' strokeWidth='6' />
+      <circle cx='27' cy='40' r='9' stroke='#e30613' strokeWidth='6' />
+      <circle cx='27' cy='40' r='9' stroke='#e30613' strokeWidth='6' />
+      <circle cx='27' cy='40' r='9' stroke='#e30613' strokeWidth='6' />
+    </svg>
+  );
+};
+
+export default LogoBlue;

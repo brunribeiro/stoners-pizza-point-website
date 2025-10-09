@@ -1,0 +1,12 @@
+{
+  "locales": ["id", "en"],
+  "localeDetection": false,
+  "defaultLocale": "en",
+  "pages": {
+    "*": ["common"],
+    "/": ["home"],
+    "/menu": ["menu"],
+    "/order": ["order"],
+    "/checkout": ["checkout"]
+  }
+}

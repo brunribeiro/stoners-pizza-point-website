@@ -1,0 +1,445 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reusable utility to hide scrollbars on any container while keeping scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.react-tooltip {
+  font-weight: normal !important;
+  font-size: 10px !important;
+  padding: 6px 10px !important;
+}
+
+@font-face {
+  font-family: 'MI_StonedType';
+  src: url('/font/MI_StonedType-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Chivo';
+  src:
+    url('/font/Chivo-Regular.ttf') format('truetype'),
+    url('/font/Chivo-Bold.ttf') format('truetype'),
+    url('/font/Chivo-Light.ttf') format('truetype'),
+    url('/font/Chivo-Black.ttf') format('truetype');
+}
+
+/* 
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--background-end-rgb))
+  ) rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+*/
+
+@keyframes fadeInDelayed {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-delay {
+  animation: fadeInDelayed 0.3s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+body {
+  font-family: 'Chivo', monospace;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 2px;
+}
+
+.rnc__notification-container--top-right {
+  right: 20px;
+  top: 70px !important;
+}
+::-webkit-scrollbar-thumb {
+  background: #c2c2c2;
+  border-radius: 10px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+/* .container {
+  max-width: 1350px;
+} */
+
+.cart-container {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #0e0c5c;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  border: 2px solid;
+  border-color: white;
+}
+
+.skeleton-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+svg {
+  cursor: pointer;
+}
+
+.toggle-checkbox {
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s;
+  width: 44px;
+  height: 24px;
+  border-radius: 30px;
+  border-color: transparent !important;
+  background: #e5e7eb;
+}
+
+.toggle-checkbox:checked {
+  background: #10b981;
+}
+
+.toggle-checkbox:before {
+  position: absolute;
+  left: 1px !important;
+  top: 1px !important;
+  height: 20px;
+  width: 20px !important;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.toggle-checkbox:checked:before {
+  transform: translateX(20px);
+}
+
+/* checkbox */
+input[type='checkbox'] {
+  border: 1px solid #333;
+  position: relative;
+  z-index: 1;
+}
+
+/* input[type='checkbox']::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 10px;
+  width: 10px;
+  background: #000;
+  border-radius: 100%;
+} */
+.primary-border {
+  border: 3px solid #dadada;
+}
+
+.secondary-border {
+  border: 3px solid #f0efed;
+}
+
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
+.custom-checkbox {
+  height: 18px;
+  width: 18px;
+  min-width: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 2px solid #606060;
+  border-radius: 5px;
+  background: #ffff;
+}
+
+.indeterminate-checkbox {
+  background: #e2e2e2;
+  height: 18px;
+  width: 18px;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+input[type='checkbox']:checked + .custom-checkbox {
+  background-color: #10b981;
+  background-image: url(../public/images/checkbox.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-color: #10b981;
+}
+
+/* input[type="checkbox"]:checked + .checkbox {
+  background-color: #e30613;
+  background-image: url(../public/images/checkbox.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 1;
+} */
+
+input[type='checkbox']:checked + .indeterminate-checkbox {
+  background-color: var(--primary-color);
+  /* background-image: url(../public/images/dash.svg); */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container .react-datepicker__calendar-icon {
+  position: absolute;
+  padding: 0.5rem;
+  top: 7px;
+  box-sizing: content-box;
+  right: 20px;
+  color: #ff0000 !important;
+}
+
+.container {
+  max-width: 94%;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .container {
+    margin: 0;
+    max-width: 100%;
+  }
+}
+
+.calender-dates .react-tabs__tab--selected button {
+  background-color: #34c7d3 !important;
+}
+
+.calender-dates .react-tabs__tab--selected button div {
+  color: white !important;
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* radio button */
+.radio-button-container {
+  display: block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.radio-button-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  height: 21px;
+  width: 21px;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  transition: all 0.3s;
+  margin: 0;
+}
+
+.radio-button-container:hover input ~ .checkmark {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.radio-button-container input:checked ~ .checkmark {
+  background-color: rgba(0, 0, 0, 0);
+  border-color: #e30613;
+}
+
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.radio-button-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radio-button-container .checkmark:after {
+  top: 2px;
+  left: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #e30613;
+}
+
+/* menu hover effect */
+li.menu-item:hover .menu-item-text {
+  color: #c20510;
+}
+li.menu-item:hover .menu-icon {
+  padding-right: 10px !important;
+}
+li.menu-item .menu-icon {
+  transition: 0.5s;
+}
+.selected-category::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  bottom: -9px;
+  height: 4px;
+  background-color: #e30613;
+  transition-duration: 300ms;
+}
+
+.selected-setting::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  bottom: 0px;
+  height: 4px;
+  background-color: #c44242;
+  transition-duration: 300ms;
+}
+@media (min-width: 1024px) {
+  .selected-setting::after {
+    content: none;
+  }
+}
+
+.sticky-fade {
+  position: sticky;
+
+  /* Fade-out effect */
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0));
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 200%;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0));
+  mask-repeat: no-repeat;
+  mask-size: 100% 200%;
+
+  transition:
+    -webkit-mask-position 0.3s,
+    mask-position 0.3s;
+}
+
+.sidebar-container {
+  box-shadow: none;
+}
+
+@media (min-width: 680px) {
+  .sidebar-container {
+    box-shadow:
+      0px 2px 4px -1px #0000000f,
+      0px 4px 6px -1px #0000001a;
+  }
+}

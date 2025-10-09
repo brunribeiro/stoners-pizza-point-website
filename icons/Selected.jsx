@@ -1,0 +1,18 @@
+import React from 'react';
+
+const Selected = () => {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'>
+      <path
+        stroke='#E30613'
+        strokeLinecap='round'
+        strokeMiterlimit='10'
+        strokeWidth='3'
+        d='M12 21a9 9 0 1 0 0-18.001A9 9 0 0 0 12 21Z'
+      ></path>
+      <path fill='#E30613' d='M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10'></path>
+    </svg>
+  );
+};
+
+export default Selected;

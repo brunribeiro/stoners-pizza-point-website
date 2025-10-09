@@ -1,0 +1,14 @@
+import React from 'react';
+
+const RedRightIcon = () => {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width='30' height='34' fill='none' viewBox='0 0 30 34'>
+      <path
+        fill='#E30613'
+        d='M1.096 8.054A1 1 0 0 0 0 9.05v15.902a1 1 0 0 0 1.096.995l10.308-.995a1 1 0 0 1 1.096.995v6.14c0 .89 1.077 1.337 1.707.707l15.086-15.086a1 1 0 0 0 0-1.414L14.207 1.207c-.63-.63-1.707-.184-1.707.707v6.14a1 1 0 0 1-1.096.995z'
+      ></path>
+    </svg>
+  );
+};
+
+export default RedRightIcon;

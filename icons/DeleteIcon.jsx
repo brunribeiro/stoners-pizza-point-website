@@ -1,0 +1,30 @@
+import React from 'react';
+
+const DeleteIcon = ({ size = '18', className, props }) => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width={size}
+      height={size}
+      className={className}
+      {...props}
+      fill='none'
+      viewBox='0 0 20 20'
+    >
+      <path
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeWidth='2'
+        d='m15 5.667-.413 6.683c-.106 1.708-.159 2.561-.586 3.175-.212.304-.484.56-.8.752-.64.39-1.495.39-3.206.39-1.713 0-2.57 0-3.209-.39a2.7 2.7 0 0 1-.8-.754c-.428-.615-.48-1.47-.583-3.18L5 5.668'
+      ></path>
+      <path
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeWidth='1.7'
+        d='M4 5.667h12m-3.296 0-.455-.94c-.303-.623-.454-.935-.715-1.13a1.3 1.3 0 0 0-.183-.114c-.288-.15-.635-.15-1.328-.15-.71 0-1.066 0-1.36.156a1.3 1.3 0 0 0-.185.12c-.264.202-.41.525-.706 1.172l-.403.886'
+      ></path>
+    </svg>
+  );
+};
+
+export default DeleteIcon;

@@ -1,0 +1,25 @@
+{
+  "category": "Category",
+  "add": "Add",
+  "pickup": "PICKUP",
+  "delivery": "DELIVERY",
+  "searchByLocation": "Search by location",
+  "addressMessage": "The address you entered is not within the delivery range for any of our stores. Please either place an order for pickup or try having the food delivered to a different address.",
+  "pickUpHours": "Pickup Hours:",
+  "placesAutocomplete": "Enter address, city, state, or zip code",
+
+  "searchYourAddress": "Search your address",
+  "houseStreetNumber": "House / Street Number",
+  "zipPostalCode": "Zip / Postal Code*",
+  "city": "City",
+  "state": "State",
+  "country": "Country",
+  "apt": "APT/Suit",
+  "nameThisAddress": "Name this address",
+  "save": "Save",
+
+  "whereAreWeDeliveringTo": "Where are we delivering to?",
+  "Address": "+ Add Address",
+  "pleaseSelectADay": "Please select a day + time for pickup",
+  "back": "< Back"
+}

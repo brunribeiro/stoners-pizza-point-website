@@ -1,0 +1,41 @@
+import * as React from 'react';
+const PaperTag = (props) => (
+  <svg
+    width={150}
+    height={151}
+    viewBox='0 0 150 151'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    {...props}
+  >
+    <path
+      d='M28.125 23.9375V131.75L43.75 122.375L59.375 131.75L75 122.375L90.625 131.75L106.25 122.375L121.875 131.75V23.9375C121.875 22.6943 121.378 21.502 120.499 20.6229C119.619 19.7439 118.427 19.25 117.184 19.25H32.8125C31.5693 19.25 30.377 19.7439 29.4979 20.6229C28.6189 21.502 28.125 22.6943 28.125 23.9375Z'
+      stroke='#D1D5DB'
+      strokeWidth={3.5}
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+    <path
+      d='M56.25 52.0645H93.75'
+      stroke='#D1D5DB'
+      strokeWidth={3.5}
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+    <path
+      d='M56.25 70.8145H93.75'
+      stroke='#D1D5DB'
+      strokeWidth={3.5}
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+    <path
+      d='M56.25 89.5645H93.75'
+      stroke='#D1D5DB'
+      strokeWidth={3.5}
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+  </svg>
+);
+export default PaperTag;

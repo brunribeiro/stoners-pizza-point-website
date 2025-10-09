@@ -1,0 +1,21 @@
+import * as React from 'react';
+
+const OrderErrorIcon = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='20'
+    height='20'
+    fill='none'
+    viewBox='0 0 20 20'
+    {...props}
+  >
+    <path
+      stroke='#E30613'
+      strokeLinecap='round'
+      strokeWidth='1.5'
+      d='m13.488 7.512-5.976 5.976m5.976 0L7.512 7.512M19 10.5a8.5 8.5 0 1 0-17 0 8.5 8.5 0 0 0 17 0Z'
+    ></path>
+  </svg>
+);
+
+export default OrderErrorIcon;
