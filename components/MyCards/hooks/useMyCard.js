@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, useCallback, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { cardSchema } from '@/schema/card';
 import { editCardSchema } from '@/schema/editCreditCard';
 import AppContext from '@/utils/appContext';

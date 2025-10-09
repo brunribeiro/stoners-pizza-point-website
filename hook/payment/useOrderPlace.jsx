@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { useContext, useEffect, useState } from 'react';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/utils/helper';
 import routes from '@/utils/routes';

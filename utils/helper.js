@@ -11,7 +11,7 @@ import {
   DEFAULT_LIMIT,
   SIDEBAR_TABS,
 } from '@/utils/constant';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 
 // import unregister from "serviceWorker";
 

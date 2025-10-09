@@ -5,7 +5,7 @@
  * with 30s cache and in-flight de-duplication.
  */
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 
 // 30s cache window
 const CACHE_TTL_MS = 30 * 1000;

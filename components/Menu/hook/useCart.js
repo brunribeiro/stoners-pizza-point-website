@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
 import { LocalStorage } from '@/utils/localStorage';
 import { posthogTrack } from '@/utils/analytics';

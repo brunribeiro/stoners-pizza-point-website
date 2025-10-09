@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
 import { LocalStorage } from '@/utils/localStorage';
 import { KEYS } from '@/utils/constant';

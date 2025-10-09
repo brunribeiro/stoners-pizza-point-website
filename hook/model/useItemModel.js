@@ -14,7 +14,7 @@ import {
   validateSelections,
 } from './helper';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import Toast from '@/utils/toast';
 import AppContext from '@/utils/appContext';
 import { KEYS, MODIFIER_TYPE, DININGOPTION_TAB_CODES } from '@/utils/constant';

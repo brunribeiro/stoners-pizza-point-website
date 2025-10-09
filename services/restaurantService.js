@@ -1,6 +1,6 @@
 // I just separated  restaurant api logic with request de-duplication and short-term caching also Covers default list and search list for pickup/delivery.
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { SIDEBAR_TABS } from '@/utils/constant';
 
 // 30s cache window

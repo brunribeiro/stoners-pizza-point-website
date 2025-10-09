@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next -p 1124",
+    "dev:vercel": "vercel dev --listen 1124",
     "build": "next build",
+    "build:vercel": "vercel build",
     "analyze": "ANALYZE=true next build",
     "start": "next start -p 8124",
     "start-prod": "next start -p 8010",

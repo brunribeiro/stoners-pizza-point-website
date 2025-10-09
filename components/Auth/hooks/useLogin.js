@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { setCookie } from 'cookies-next';
 import getConfig from 'next/config';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import Toast from '@/utils/toast';
 import { getToastMessage } from '@/utils/common';
 import loginSchema from '@/schema/login';

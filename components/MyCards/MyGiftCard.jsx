@@ -7,7 +7,7 @@ import CustomModal from '../common/CustomModal';
 import PurchaseGiftCard from './PurchaseGiftCard';
 
 import EditIcon from '@/icons/EditIcon';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { KEYS } from '@/utils/constant';
 import IncentivioLoader from '@/widgets/incentivioLoader';
 import Button from '@/widgets/button';

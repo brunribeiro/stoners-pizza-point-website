@@ -3,7 +3,7 @@ import QRCode from 'react-qr-code';
 import useTranslation from 'next-translate/useTranslation';
 
 import IncentivioLoader from '@/widgets/incentivioLoader';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
 
 const LoyaltyCard = () => {

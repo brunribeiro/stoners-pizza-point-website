@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import useTranslation from 'next-translate/useTranslation';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
 import { getToastMessage } from '@/utils/common';
 import { API_SUCCESS_RESPONSE, KEYS, SENTENCES } from '@/utils/constant';

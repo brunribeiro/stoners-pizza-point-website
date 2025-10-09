@@ -19,7 +19,7 @@ import useItemModel from '@/hook/model/useItemModel';
 import AppContext from '@/utils/appContext';
 import LayoutWrapper from '@/shared/layoutWrapper';
 import { LocalStorage } from '@/utils/localStorage';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { DINING_OPTION, KEYS, RESTAURANT_TYPE } from '@/utils/constant';
 
 const Checkout = () => {

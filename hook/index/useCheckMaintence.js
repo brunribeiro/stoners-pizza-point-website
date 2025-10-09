@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 
 const useCheckMaintence = () => {
   const [IsMaintenance, setIsMaintenance] = useState('');

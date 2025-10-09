@@ -2,7 +2,7 @@ import { useContext, useState, useTransition } from 'react';
 import { useRouter } from 'next/router';
 
 import AppContext from '@/utils/appContext';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import Toast from '@/utils/toast';
 import { formatDateTime } from '@/utils/helper';
 import routes from '@/utils/routes';

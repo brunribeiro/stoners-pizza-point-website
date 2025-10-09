@@ -1,7 +1,7 @@
 // hooks/useOrderDetail.js
 import { useEffect, useState } from 'react';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { API_SUCCESS_RESPONSE } from '@/utils/constant';
 
 const useOrderDetail = (orderId) => {

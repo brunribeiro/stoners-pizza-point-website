@@ -1,5 +1,5 @@
-import fetchUrl from '@/api/index';
-import apiList from '@/api/list';
+import fetchUrl from '@/services/api/index';
+import apiList from '@/services/api/list';
 
 /**
  * Use this commonApi function to call all APIs.

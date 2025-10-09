@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { getToastMessage } from '@/utils/common';
 import { API_SUCCESS_RESPONSE } from '@/utils/constant';
 import changePasswordSchema from '@/schema/changePassword';

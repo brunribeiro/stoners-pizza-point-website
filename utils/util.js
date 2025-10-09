@@ -6,7 +6,7 @@ import { deleteCookie, setCookie } from 'cookies-next';
 import Toast from './toast';
 import { LocalStorage } from './localStorage';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { KEYS } from '@/utils/constant';
 import { resetPosthog } from '@/utils/analytics';
 

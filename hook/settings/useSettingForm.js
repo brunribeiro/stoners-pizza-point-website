@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import useTranslation from 'next-translate/useTranslation';
 
 import { settingSchema } from '@/schema/setting';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { API_SUCCESS_RESPONSE } from '@/utils/constant';
 import Toast from '@/utils/toast';
 import AppContext from '@/utils/appContext';

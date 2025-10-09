@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
 import { API_SUCCESS_RESPONSE, DEFAULT_LIMIT, KEYS } from '@/utils/constant';
 import routes from '@/utils/routes';

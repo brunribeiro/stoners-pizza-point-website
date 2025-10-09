@@ -6,7 +6,7 @@ import { setDeviceId } from './util';
 import { LocalStorage } from './localStorage';
 
 import Toast from '@/utils/toast';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 
 export const handleLogout = async () => {
   const response = await fetch('/api/logout', {

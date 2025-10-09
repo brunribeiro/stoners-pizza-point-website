@@ -5,7 +5,7 @@ import useTranslation from 'next-translate/useTranslation';
 import getConfig from 'next/config';
 
 import signupSchema from '@/schema/signUp';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { getToastMessage } from '@/utils/common';
 import { USER_MESSAGES } from '@/utils/constant';
 import { trackSignupEvent, identifyUser } from '@/utils/analytics';

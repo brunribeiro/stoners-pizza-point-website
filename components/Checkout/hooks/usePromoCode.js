@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { useState } from 'react';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import { API_SUCCESS_RESPONSE, DEFAULT_LNG } from '@/utils/constant';
 
 const usePromoCode = () => {

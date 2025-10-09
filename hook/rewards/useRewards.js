@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useContext } from 'react';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
 
 const useRewards = (fromHeader = false) => {

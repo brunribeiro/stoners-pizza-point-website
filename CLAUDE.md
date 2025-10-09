@@ -87,8 +87,13 @@ The application uses **React Context** for global state management with three ma
 
 ### Services Layer
 
+- `services/api/` - **Client-side API utilities** (NOT Vercel serverless functions)
+  - `common.js` - Common API wrapper function
+  - `index.js` - Axios configuration and request handlers
+  - `list.js` - API endpoint definitions
 - `services/restaurantService.js` - Restaurant search and location APIs
 - `services/menuService.js` - Menu categories, items, and search APIs
+- **Actual API routes** are in `pages/api/` (Next.js convention for serverless functions)
 - All API calls go through a centralized service pattern
 
 ### Utilities

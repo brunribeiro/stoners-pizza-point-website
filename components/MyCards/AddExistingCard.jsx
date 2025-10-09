@@ -9,7 +9,7 @@ import Button from '@/widgets/button';
 import ControlledInput from '@/widgets/ControlledInput';
 import { cardNumber } from '@/schema/cardNumber';
 import { REST_LOCATION_ID } from '@/utils/constant';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import routes from '@/utils/routes';
 import AppContext from '@/utils/appContext';
 import { LocalStorage } from '@/utils/localStorage';

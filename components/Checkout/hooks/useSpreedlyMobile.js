@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 
 const useSpreedlyMobile = () => {
   const [loading, setLoading] = useState(false);

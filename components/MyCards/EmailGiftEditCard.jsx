@@ -15,7 +15,7 @@ import ControlledInput from '@/widgets/ControlledInput';
 import { emailGiftSchema } from '@/schema/emailGift';
 import TextArea from '@/widgets/textarea';
 import { KEYS, PAYMENT_TYPE, REST_LOCATION_ID, SPACE_REMOVE_REGEX } from '@/utils/constant';
-import commonApi from '@/api/common';
+import commonApi from '@/services/api/common';
 import Toast from '@/utils/toast';
 import AppContext from '@/utils/appContext';
 import { LocalStorage } from '@/utils/localStorage';
