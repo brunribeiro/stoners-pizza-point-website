@@ -52,15 +52,6 @@ export default function App({ Component, pageProps }) {
     if (!contextValue.menuRestId?.menuId) fetchSessionIds();
   }, [router.asPath]);
 
-  // Refresh page once after login
-  useEffect(() => {
-    const userId = contextValue.loginData?.userId;
-    if (userId && !sessionStorage.getItem('hasReloadedOnLogin')) {
-      sessionStorage.setItem('hasReloadedOnLogin', 'true');
-      window.location.reload();
-    }
-  }, [contextValue.loginData?.userId]);
-
   // Initialize and identify user with Atlas (only for logged-in users)
   useEffect(() => {
     const { email, name, userId, phoneNumber } = contextValue.loginData || {};

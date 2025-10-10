@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SkeletonOrderDetails = ({ sidemenu= false }) => {
+const SkeletonOrderDetails = ({ sidemenu = false }) => {
   return (
     <div className='animate-pulse space-y-6 px-2'>
       {/* timestamp */}
