@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Controller } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import CalenderIcon from '@/icons/CalenderIcon';
@@ -52,11 +52,11 @@ const RHFDatePicker = ({
           render={({ field }) => (
             <DatePicker
               ref={datePickerRef}
-              selected={field.value ? moment(field.value, submissionFormat).toDate() : null}
+              selected={field.value ? dayjs(field.value, submissionFormat).toDate() : null}
               ariaLabelledBy={placeholder}
               onChange={(date) => {
-                if (date && moment(date).isValid()) {
-                  field.onChange(moment(date).format(submissionFormat));
+                if (date && dayjs(date).isValid()) {
+                  field.onChange(dayjs(date).format(submissionFormat));
                 } else {
                   field.onChange(null);
                 }

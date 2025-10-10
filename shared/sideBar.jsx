@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import useTranslation from 'next-translate/useTranslation';
-import { motion } from 'framer-motion';
 import { useJsApiLoader } from '@react-google-maps/api';
 
 import AutocompleteSection from '@/shared/sidebar/AutocompleteSection';
@@ -11,7 +10,7 @@ import AppContext from '@/utils/appContext';
 import { useRestaurantCtx } from '@/contexts/restaurantContext';
 import { KEYS, SIDEBAR_TABS } from '@/utils/constant';
 import { LocalStorage } from '@/utils/localStorage';
-import { getOrderTypeContainerClass, getSidebarMotionProps } from '@/utils/helper';
+import { getOrderTypeContainerClass } from '@/utils/helper';
 
 const SideBar = ({
   dt,
@@ -142,9 +141,12 @@ const SideBar = ({
                     ''
                   )}
                   <div className={getOrderTypeContainerClass(fromHeader)}>
-                    <motion.div
-                      className='absolute -top-[5px] rounded-full py-[25px] bg-primary border-[3px] border-black z-10'
-                      {...getSidebarMotionProps(currentTab)}
+                    <div
+                      className='absolute -top-[5px] rounded-full py-[25px] bg-primary border-[3px] border-black z-10 transition-all duration-300 ease-out'
+                      style={{
+                        left: currentTab === 0 ? '-3px' : '48%',
+                        width: '54%',
+                      }}
                     />
                     {renderTab(0, 'pickup')}
                     {renderTab(1, 'delivery')}

@@ -1,6 +1,6 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import CalenderIcon from '@/icons/CalenderIcon';
@@ -24,8 +24,8 @@ const DateInput = ({
   ...rest
 }) => {
   const handleDateChange = (date) => {
-    if (date && moment(date).isValid()) {
-      const formattedDate = moment(date).format(submissionFormat);
+    if (date && dayjs(date).isValid()) {
+      const formattedDate = dayjs(date).format(submissionFormat);
       onChange(formattedDate);
     } else {
       onChange(null);
@@ -46,7 +46,7 @@ const DateInput = ({
           </span>
         )}
         <DatePicker
-          selected={selectedDate ? moment(selectedDate, submissionFormat).toDate() : null}
+          selected={selectedDate ? dayjs(selectedDate, submissionFormat).toDate() : null}
           onChange={handleDateChange}
           dateFormat={displayFormat}
           placeholderText={placeholder || displayFormat}

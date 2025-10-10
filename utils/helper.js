@@ -1,5 +1,8 @@
 import Router from 'next/router';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { getCookie, setCookie } from 'cookies-next';
 import axios from 'axios';
 import getConfig from 'next/config';
@@ -13,9 +16,10 @@ import {
 } from '@/utils/constant';
 import commonApi from '@/services/api/common';
 
-// import unregister from "serviceWorker";
-
-const momentTz = require('moment-timezone');
+// Extend dayjs with plugins
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime);
 
 const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -60,10 +64,10 @@ const displayAmount = (amount = 0) => {
 
 const concatCurrentTime = (date) => {
   const currentDate = date
-    ? moment(
-        moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD') + ' ' + moment().format('HH:mm:ss'),
+    ? dayjs(
+        dayjs(date, 'DD/MM/YYYY').format('YYYY-MM-DD') + ' ' + dayjs().format('HH:mm:ss'),
       ).format('YYYY-MM-DDTHH:mm:ss')
-    : moment().format('YYYY-MM-DDTHH:mm:ss');
+    : dayjs().format('YYYY-MM-DDTHH:mm:ss');
 
   return currentDate;
 };
@@ -139,7 +143,7 @@ const checkPhone = (e, type, formik) => {
 };
 
 const strToJSDate = (str) => {
-  const value = new Date(moment(str, 'DD/MM/YYYY'));
+  const value = dayjs(str, 'DD/MM/YYYY').toDate();
   if (Object.prototype.toString.call(value) === '[object Date]') {
     if (Number.isNaN(value.getTime())) {
       // d.valueOf() could also work
@@ -153,7 +157,7 @@ const strToJSDate = (str) => {
 };
 
 const tzDateDisplay = (date, format = 'DD MMM YYYY') => {
-  return momentTz.tz(date, tz).format(format);
+  return dayjs(date).tz(tz).format(format);
 };
 
 const jsDatetoStr = (date) => {
@@ -170,32 +174,32 @@ const jsDatetoStr = (date) => {
 };
 
 const timeDisplay = (date) => {
-  return moment(date).format('hh:mm A');
+  return dayjs(date).format('hh:mm A');
 };
 
 const timeDisplayWithouUTC = (date, dateFormat = 'hh:mm A') => {
-  return moment(date).format(dateFormat);
+  return dayjs(date).format(dateFormat);
 };
 const getDuration = (startDate, endDate, dateFormat = 'hh:mm A') => {
-  const date1 = moment(startDate).format(dateFormat);
-  const date2 = moment(endDate).format(dateFormat);
+  const date1 = dayjs(startDate);
+  const date2 = dayjs(endDate);
   return date2.diff(date1, 'minutes');
 };
 
 const timeDisplayUTC = (date, format = 'hh:mm A') => {
-  return momentTz(date).utc().format(format);
+  return dayjs(date).utc().format(format);
 };
 
 const formatDate = (date, dateFormat = DEFAULT_DATE_FORMAT) => {
-  return moment(date).format(dateFormat);
+  return dayjs(date).format(dateFormat);
 };
 
 const dateDisplayUTC = (date, dateFormat = 'DD MMM YYYY') => {
-  return moment(date).utc().format(dateFormat);
+  return dayjs(date).utc().format(dateFormat);
 };
 
 const dateDisplay = (date, dateFormat = 'DD MMM YYYY') => {
-  return moment(date).format(dateFormat);
+  return dayjs(date).format(dateFormat);
 };
 
 const capitalizaWords = (sentence = '') => {
@@ -479,8 +483,8 @@ const formatPhoneNumber2 = (phoneNumberString) => {
 };
 
 const formatCustomDate = (dateString) => {
-  const date = moment(dateString);
-  const now = moment();
+  const date = dayjs(dateString);
+  const now = dayjs();
 
   if (date.isSame(now, 'day')) {
     // If the date is today
@@ -504,7 +508,7 @@ const formatCustomDate = (dateString) => {
 };
 
 const localDateTime = (format = 'YYYY-MM-DDTHH:mm:ss') => {
-  return moment().format(format);
+  return dayjs().format(format);
 };
 
 // Set an item in localStorage
@@ -633,16 +637,6 @@ export const getOrderTypeContainerClass = (fromHeader = false) =>
   `bg-white rounded-full flex justify-between cursor-pointer items-center h-[50px] border-[3px] border-black  w-full relative ${
     fromHeader ? 'max-w-[400px]' : 'max-w-[512px]'
   }`;
-
-// Motion props for the sliding background under the tabs
-export const getSidebarMotionProps = (currentTab = 0) => ({
-  initial: { left: '-3px', width: '54%' },
-  animate: {
-    left: currentTab === 0 ? '-3px' : '48%',
-    width: '54%',
-  },
-  transition: { type: 'spring', stiffness: 500, damping: 30 },
-});
 
 // Decide which list to render on Pickup panel
 export const pickPickupList = (dt) => {

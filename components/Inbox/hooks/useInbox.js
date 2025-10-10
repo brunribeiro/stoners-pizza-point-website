@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 
@@ -121,7 +121,7 @@ const useInbox = ({
       },
       languagecode: DEFAULT_LNG,
       latitude: 0,
-      localDateTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+      localDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
       longitude: 0,
     };
 

@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 import { DEFAULT_DATE_FORMAT, DINING_OPTION, KEYS, REST_LOCATION_ID } from '@/utils/constant';
 import RestaurantScheduler from '@/shared/RestaurantScheduler';
@@ -8,6 +10,9 @@ import AppContext from '@/utils/appContext';
 import useReorder from '@/hook/order/useReorder';
 import useAddress from '@/hook/useAddress';
 import { LocalStorage } from '@/utils/localStorage';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const TimeBar = ({ time, orderType, getAddress, changeLocation }) => {
   const { timeModal, setTimeModal, currentTab, setCurrentTab } = useContext(AppContext);
@@ -25,12 +30,12 @@ const TimeBar = ({ time, orderType, getAddress, changeLocation }) => {
     if (currentTab === 0) setIsDelivery(false);
   }, [currentTab]);
 
-  const parsedTime = moment(time);
+  const parsedTime = dayjs(time);
 
   const getDisplayDate = () => {
-    if (parsedTime.isSame(moment(), 'day')) {
+    if (parsedTime.isSame(dayjs(), 'day')) {
       return t('today');
-    } else if (parsedTime.isSame(moment().add(1, 'days'), 'day')) {
+    } else if (parsedTime.isSame(dayjs().add(1, 'days'), 'day')) {
       return t('tomorrow');
     } else {
       return parsedTime.format(DEFAULT_DATE_FORMAT);
@@ -38,7 +43,7 @@ const TimeBar = ({ time, orderType, getAddress, changeLocation }) => {
   };
 
   const getDisplayTimeWithTimeZone = () => {
-    return parsedTime.tz(moment.tz.guess()).format('h:mm A z');
+    return parsedTime.tz(dayjs.tz.guess()).format('h:mm A z');
   };
   const handleSchedular = () => {
     setTimeModal(true);

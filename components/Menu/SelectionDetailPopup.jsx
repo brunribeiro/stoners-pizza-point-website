@@ -1,18 +1,16 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 import Button from '@/widgets/button';
 
 const SelectionDetailsPopup = ({ isOpen, onClose, onClear, itemName, modifiers }) => {
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
-        <motion.div
-          initial={{ y: '100%' }}
-          animate={{ y: 0 }}
-          exit={{ y: '100%' }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className='fixed bottom-20 sm:bottom-24 w-full sm:left-[128px] sm:w-[40%] right-0 z-30 bg-primary-light rounded-t-3xl shadow-lg border'
+        <div
+          className='fixed bottom-20 sm:bottom-24 w-full sm:left-[128px] sm:w-[40%] right-0 z-30 bg-primary-light rounded-t-3xl shadow-lg border transition-transform duration-300 ease-out'
+          style={{
+            transform: isOpen ? 'translateY(0)' : 'translateY(100%)',
+          }}
         >
           <div className='p-3 flex w-full flex-col gap-3'>
             <div className='w-full flex justify-center'>
@@ -61,9 +59,9 @@ const SelectionDetailsPopup = ({ isOpen, onClose, onClear, itemName, modifiers }
               <Button title='Close' onClick={onClose} primary={false} className='w-full' />
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 };
 
