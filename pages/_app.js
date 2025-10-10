@@ -113,7 +113,16 @@ export default function App({ Component, pageProps }) {
       });
     };
 
-    initAtlas();
+    // Wait for Atlas to load before initializing
+    const checkAtlasLoaded = setInterval(() => {
+      if (window.Atlas && typeof window.Atlas.call === 'function') {
+        clearInterval(checkAtlasLoaded);
+        initAtlas();
+      }
+    }, 100); // Check every 100ms
+
+    // Cleanup interval on unmount
+    return () => clearInterval(checkAtlasLoaded);
   }, [contextValue.loginData?.email]);
 
   // Initialize fast navigation
