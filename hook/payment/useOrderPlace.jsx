@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import getConfig from 'next/config';
 import { useContext, useEffect, useState } from 'react';
 
 import commonApi from '@/services/api/common';
@@ -9,8 +8,7 @@ import routes from '@/utils/routes';
 import Toast from '@/utils/toast';
 import { DINING_OPTION, KEYS, PAYMENT_TYPE, REST_LOCATION_ID } from '@/utils/constant';
 import { LocalStorage } from '@/utils/localStorage';
-
-const { publicRuntimeConfig } = getConfig();
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 
 const useOrderPlace = ({ setFocus, cartData, spreedlyToken, setSpreedlyToken }) => {
   const [loader, setLoader] = useState({
@@ -30,6 +28,7 @@ const useOrderPlace = ({ setFocus, cartData, spreedlyToken, setSpreedlyToken }) 
     setApplicableOffers,
     guestInfo,
   } = useContext(AppContext);
+  const { executeRecaptcha } = useRecaptcha();
   const [openOfferModal, setOpenOfferModal] = useState(false);
   const [openPromoModal, setOpenPromoModal] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState(null);
@@ -163,13 +162,7 @@ const useOrderPlace = ({ setFocus, cartData, spreedlyToken, setSpreedlyToken }) 
       };
 
       // 4. Captcha token
-      let captchaToken;
-      if (publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY) {
-        captchaToken = await window.grecaptcha.execute(
-          publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY,
-          { action: 'payment' },
-        );
-      }
+      const captchaToken = await executeRecaptcha('payment');
 
       // 5. Make final payment
       const finalPayment = await commonApi({
