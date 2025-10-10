@@ -128,11 +128,11 @@ const SideBar = ({
             <div className='flex w-full flex-col'>
               <div className='bg-primary-light px-3 md:px-6 sm:px-10 p-5 sm:py-8 rounded-t-[20px]'>
                 {!isChange ? (
-                  <h2 className='text-center font-stone text-[24px] leading-[1.2] sm:text-4xl mb-2 sm:mb-5'>
+                  <h2 className='text-center font-stone text-[24px] leading-[1.2] sm:text-4xl mb-2 sm:mb-5 min-h-[29px] sm:min-h-[43px]'>
                     FIND A JOINT NEAR YOU
                   </h2>
                 ) : (
-                  ''
+                  <div className='min-h-[29px] sm:min-h-[43px]' />
                 )}
                 <div className='w-full flex flex-col items-center justify-center'>
                   {!isChange ? (

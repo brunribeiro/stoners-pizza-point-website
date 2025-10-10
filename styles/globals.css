@@ -19,6 +19,7 @@
 @font-face {
   font-family: 'MI_StonedType';
   src: url('/font/MI_StonedType-Regular.otf') format('opentype');
+  font-display: swap;
 }
 
 @font-face {
@@ -28,6 +29,7 @@
     url('/font/Chivo-Bold.ttf') format('truetype'),
     url('/font/Chivo-Light.ttf') format('truetype'),
     url('/font/Chivo-Black.ttf') format('truetype');
+  font-display: swap;
 }
 
 /* 
