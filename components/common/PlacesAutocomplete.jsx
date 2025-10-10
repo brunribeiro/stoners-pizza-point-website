@@ -346,6 +346,7 @@ const PlacesAutocomplete = forwardRef(
               onClick={handleUseMyLocation}
               data-tooltip-id='your-location'
               data-tooltip-content='Your Location'
+              aria-label='Use your current location'
               className={`absolute text-black hover:text-primary bg-white duration-300 right-5 top-4 ${
                 isChange ? '!top-[16px] !right-4' : ''
               }`}

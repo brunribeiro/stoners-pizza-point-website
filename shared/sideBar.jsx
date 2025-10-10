@@ -71,10 +71,6 @@ const SideBar = ({
       } ${
         currentTab === index ? 'text-white text-lg z-20' : 'text-gray-600 hover:text-primary z-20'
       }`}
-      role='tab'
-      tabIndex='0'
-      aria-selected={currentTab === index}
-      aria-controls={index === 0 ? 'pickup-panel' : 'delivery-panel'}
     >
       {t(label)}
     </Tab>
@@ -114,8 +110,6 @@ const SideBar = ({
           }
         }}
         className='flex flex-col'
-        role='tablist'
-        aria-label='Sidebar Tabs'
       >
         <div className='w-full bg-white rounded-t-[20px]'>
           <TabList>
@@ -154,7 +148,7 @@ const SideBar = ({
             </div>
           </TabList>
         </div>
-        <TabPanel id='pickup-panel' role='tabpanel' aria-labelledby='pickup-tab'>
+        <TabPanel>
           <PickupPanel
             dt={dt}
             currentTab={currentTab}
@@ -168,7 +162,7 @@ const SideBar = ({
             t={t}
           />
         </TabPanel>
-        <TabPanel id='delivery-panel' role='tabpanel' aria-labelledby='delivery-tab'>
+        <TabPanel>
           <DeliveryPanel
             dt={dt}
             currentTab={currentTab}

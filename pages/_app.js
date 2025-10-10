@@ -121,6 +121,10 @@ export default function App({ Component, pageProps }) {
         <meta name='viewport' content='width=device-width' />
         <meta name='title' content="Stoner's Pizza Joint" />
         <meta
+          name='description'
+          content='Find convenience at your fingertips with Stoner! Your ultimate destination for food options. Order now and satisfy all your cravings'
+        />
+        <meta
           property='og:description'
           content='Find convenience at your fingertips with Stoner! Your ultimate destination for food options. Order now and satisfy all your cravings'
         />

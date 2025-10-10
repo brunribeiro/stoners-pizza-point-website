@@ -130,6 +130,7 @@ const RestaurantCard = ({
                       }}
                       data-tooltip-id='str-detail'
                       data-tooltip-content='Store Detail'
+                      aria-label={`View details for ${rest?.name}`}
                     >
                       <InfoIcon />
                       <Tooltip id='str-detail' />
