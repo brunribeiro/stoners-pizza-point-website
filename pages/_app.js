@@ -75,40 +75,40 @@ export default function App({ Component, pageProps }) {
     }
   }, [contextValue.loginData?.userId]);
 
-  // Identify user with Atlas
+  // Initialize and identify user with Atlas (only for logged-in users)
   useEffect(() => {
     const { email, name, userId, phoneNumber } = contextValue.loginData || {};
-    if (!email) return;
+    if (!email) return; // Only run for logged-in users
 
-    window.Atlas?.call('identify', {
-      userId,
-      name,
-      email,
-      phoneNumber: phoneNumber,
-      customFields: {
-        account: 'Stoners Pizza',
-      },
-    });
-  }, [contextValue.loginData?.email]);
-
-  // Initialize Atlas chatbot
-  useEffect(() => {
     const initAtlas = () => {
       if (!window.Atlas) {
         console.error('Atlas SDK failed to load');
         return;
       }
 
+      // Configure Atlas
       window.Atlas.call('config', {
         position: 'bottom-right',
       });
 
+      // Start Atlas chat
       window.Atlas.call('start', {
         chat: {
           position: 'bottomRight',
           offset: [30, 30],
           hideBubble: true,
           openIncoming: true,
+        },
+      });
+
+      // Identify the user
+      window.Atlas.call('identify', {
+        userId,
+        name,
+        email,
+        phoneNumber: phoneNumber,
+        customFields: {
+          account: 'Stoners Pizza',
         },
       });
     };
@@ -133,31 +133,32 @@ export default function App({ Component, pageProps }) {
         <meta property='og:type' content='website' />
       </Head>
 
-      {/* Atlas Widget Script */}
-      <Script
-        id='atlas-snippet'
-        strategy='afterInteractive'
-        dangerouslySetInnerHTML={{
-          __html: `
-            (() => {
-              "use strict";
-              var t, e = {
-                appId: "ld2n10pcuu",
-                v: 2,
-                q: [],
-                call: function () { this.q.push(arguments); }
-              };
-              window.Atlas = e;
-              var n = document.createElement("script");
-              n.async = true;
-              n.src = "https://app.atlas.so/client-js/atlas.bundle.js";
-              var s = document.getElementsByTagName("script")[0];
-              (t = s.parentNode) && t.insertBefore(n, s);
-            })();
-            window.Atlas.call("start");
-          `,
-        }}
-      />
+      {/* Atlas Widget Script - Only load for logged-in users */}
+      {contextValue.loginData?.email && (
+        <Script
+          id='atlas-snippet'
+          strategy='afterInteractive'
+          dangerouslySetInnerHTML={{
+            __html: `
+              (() => {
+                "use strict";
+                var t, e = {
+                  appId: "ld2n10pcuu",
+                  v: 2,
+                  q: [],
+                  call: function () { this.q.push(arguments); }
+                };
+                window.Atlas = e;
+                var n = document.createElement("script");
+                n.async = true;
+                n.src = "https://app.atlas.so/client-js/atlas.bundle.js";
+                var s = document.getElementsByTagName("script")[0];
+                (t = s.parentNode) && t.insertBefore(n, s);
+              })();
+            `,
+          }}
+        />
+      )}
 
       <AppContext.Provider value={contextValue}>
         <RestaurantProvider>
