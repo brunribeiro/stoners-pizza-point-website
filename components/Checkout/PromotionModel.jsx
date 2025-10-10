@@ -6,7 +6,7 @@ const PromotionModel = () => {
     <div className='flex items-center sm:flex-row flex-col rounded-2xl overflow-hidden'>
       <div className='sm:min-w-[125px] relative'>
         <div className='sm:w-[125px] w-full h-[135px]'>
-          <Image src='/images/product.jpg' fill className='object-cover' alt='Product Image' />
+          <Image src='/images/product.webp' fill className='object-cover' alt='Product Image' />
         </div>
         <div className='absolute top-2 left-2 px-4 py-2 rounded-full bg-primary text-white font-bold text-xs'>
           NEW

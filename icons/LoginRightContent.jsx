@@ -4,7 +4,7 @@ const LoginRightContent = ({ style, className, ...rest }) => (
   <div
     className={className}
     style={{
-      backgroundImage: "url('/images/ViewMap.jpg')",
+      backgroundImage: "url('/images/ViewMap.webp')",
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',

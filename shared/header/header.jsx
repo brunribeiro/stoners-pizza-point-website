@@ -472,7 +472,7 @@ const Header = ({ dtuseModel, cartLoad }) => {
           widthClass='w-[500px] '
           childClassname='!bg-primary-light relative'
         >
-          <div className='bg-[url("/images/menuBg.png")] bg-right-bottom bg-no-repeat w-full h-full absolute bottom-10' />
+          <div className='bg-[url("/images/menuBg.webp")] bg-right-bottom bg-no-repeat w-full h-full absolute bottom-10' />
           <div className='flex flex-col min-h-screen justify-between p-4'>
             <div>
               <div className='bg-white p-5 rounded-full mt-16'>
