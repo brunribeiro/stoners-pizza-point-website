@@ -5,13 +5,12 @@ import Script from 'next/script';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { ReactNotifications } from 'react-notifications-component';
+
 import '@/styles/globals.css';
 import '@/styles/button.css';
 import 'react-notifications-component/dist/theme.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import posthog from 'posthog-js';
-
 import { useFastNavigation } from '@/utils/fastNavigation';
 import AppContext from '@/utils/appContext';
 import useAppContext from '@/hook/context/useAppContext';
@@ -26,18 +25,6 @@ const { publicRuntimeConfig } = getConfig();
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   const contextValue = useAppContext();
-  if (
-    typeof window !== 'undefined' &&
-    publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY &&
-    publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST
-  ) {
-    posthog.init(publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY, {
-      api_host: publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST,
-      debug: false,
-      autocapture: false,
-      // capture_pageview: true,
-    });
-  }
 
   // Set login data & device cookie
   useEffect(() => {
@@ -167,6 +154,25 @@ export default function App({ Component, pageProps }) {
           }}
         />
       )}
+
+      {/* PostHog Analytics - Deferred loading */}
+      {publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY &&
+        publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST && (
+          <Script
+            id='posthog-js'
+            src='https://app.posthog.com/static/array.js'
+            strategy='lazyOnload'
+            onLoad={() => {
+              if (window.posthog) {
+                window.posthog.init(publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY, {
+                  api_host: publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST,
+                  debug: false,
+                  autocapture: false,
+                });
+              }
+            }}
+          />
+        )}
 
       <AppContext.Provider value={contextValue}>
         <GoogleMapsProvider>

@@ -8,6 +8,22 @@ export default function Document() {
         {/* Preconnect to Google Fonts domains */}
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='true' />
+
+        {/* Preload custom fonts to prevent layout shift */}
+        <link
+          rel='preload'
+          href='/font/Chivo-Regular.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/font/MI_StonedType-Regular.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
       </Head>
       <body>
         <Main />
