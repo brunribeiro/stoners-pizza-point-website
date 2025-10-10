@@ -200,14 +200,17 @@ const RestaurantCard = ({
                       <></>
                     )}
                   </div>
-                  <div>
-                    <a
-                      href={`tel:${rest?.telephone}`}
-                      className='text-foreground text-sm hover:text-primary border-b border-foreground hover:border-primary'
-                    >
-                      {formatPhoneNumber2(rest?.telephone)}
-                    </a>
-                  </div>
+                  {rest?.telephone && (
+                    <div>
+                      <a
+                        href={`tel:${rest.telephone}`}
+                        className='text-foreground text-sm hover:text-primary border-b border-foreground hover:border-primary'
+                        aria-label={`Call ${rest.name} at ${formatPhoneNumber2(rest.telephone)}`}
+                      >
+                        {formatPhoneNumber2(rest.telephone)}
+                      </a>
+                    </div>
+                  )}
                   {rest?.desc && <p className='text-sm'>{rest?.desc}</p>}
                 </div>
               </div>

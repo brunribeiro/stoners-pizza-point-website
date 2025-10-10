@@ -112,41 +112,41 @@ const SideBar = ({
         className='flex flex-col'
       >
         <div className='w-full bg-white rounded-t-[20px]'>
-          <TabList>
-            <div className='flex w-full flex-col'>
-              <div className='bg-primary-light px-3 md:px-6 sm:px-10 p-5 sm:py-8 rounded-t-[20px]'>
+          <div className='flex w-full flex-col'>
+            <div className='bg-primary-light px-3 md:px-6 sm:px-10 p-5 sm:py-8 rounded-t-[20px]'>
+              {!isChange ? (
+                <h2 className='text-center font-stone text-[24px] leading-[1.2] sm:text-4xl mb-2 sm:mb-5 min-h-[29px] sm:min-h-[43px]'>
+                  FIND A JOINT NEAR YOU
+                </h2>
+              ) : (
+                <div className='min-h-[29px] sm:min-h-[43px]' />
+              )}
+              <div className='w-full flex flex-col items-center justify-center'>
                 {!isChange ? (
-                  <h2 className='text-center font-stone text-[24px] leading-[1.2] sm:text-4xl mb-2 sm:mb-5 min-h-[29px] sm:min-h-[43px]'>
-                    FIND A JOINT NEAR YOU
-                  </h2>
+                  <p className='text-center font-bold mb-[8px] text-sm'>ORDER TYPE</p>
                 ) : (
-                  <div className='min-h-[29px] sm:min-h-[43px]' />
+                  ''
                 )}
-                <div className='w-full flex flex-col items-center justify-center'>
-                  {!isChange ? (
-                    <p className='text-center font-bold mb-[8px] text-sm'>ORDER TYPE</p>
-                  ) : (
-                    ''
-                  )}
-                  <div className={getOrderTypeContainerClass(fromHeader)}>
-                    <div
-                      className='absolute -top-[5px] rounded-full py-[25px] bg-primary border-[3px] border-black z-10 transition-all duration-300 ease-out'
-                      style={{
-                        left: currentTab === 0 ? '-3px' : '48%',
-                        width: '54%',
-                      }}
-                    />
+                <div className={getOrderTypeContainerClass(fromHeader)}>
+                  <div
+                    className='absolute -top-[5px] rounded-full py-[25px] bg-primary border-[3px] border-black z-10 transition-all duration-300 ease-out'
+                    style={{
+                      left: currentTab === 0 ? '-3px' : '48%',
+                      width: '54%',
+                    }}
+                  />
+                  <TabList className='flex w-full'>
                     {renderTab(0, 'pickup')}
                     {renderTab(1, 'delivery')}
-                  </div>
+                  </TabList>
                 </div>
               </div>
-              <div className={` px-3 sm:px-5 md:px-10 p-5 sm:pt-8 ${isChange ? '!px-6' : ''}`}>
-                {currentTab === 1 && <h2 className='font-stone text-xl '>FIND A LOCATION</h2>}
-                {currentTab === SIDEBAR_TABS.pickup ? renderAutocomplete() : null}
-              </div>
             </div>
-          </TabList>
+            <div className={` px-3 sm:px-5 md:px-10 p-5 sm:pt-8 ${isChange ? '!px-6' : ''}`}>
+              {currentTab === 1 && <h2 className='font-stone text-xl '>FIND A LOCATION</h2>}
+              {currentTab === SIDEBAR_TABS.pickup ? renderAutocomplete() : null}
+            </div>
+          </div>
         </div>
         <TabPanel>
           <PickupPanel
