@@ -133,14 +133,6 @@ export default function App({ Component, pageProps }) {
         <meta property='og:type' content='website' />
       </Head>
 
-      {/* Google reCAPTCHA */}
-      {publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY && (
-        <Script
-          strategy='afterInteractive'
-          src={`https://www.google.com/recaptcha/api.js?render=${publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY}`}
-        />
-      )}
-
       {/* Atlas Widget Script */}
       <Script
         id='atlas-snippet'

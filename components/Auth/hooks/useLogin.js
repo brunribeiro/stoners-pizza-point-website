@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { setCookie } from 'cookies-next';
-import getConfig from 'next/config';
 
 import commonApi from '@/services/api/common';
 import Toast from '@/utils/toast';
@@ -13,8 +12,7 @@ import { DEFAULT_NEXT_API_HEADER, KEYS, USER_MESSAGES } from '@/utils/constant';
 import AppContext from '@/utils/appContext';
 import { LocalStorage } from '@/utils/localStorage';
 import { trackLoginEvent, identifyUser } from '@/utils/analytics';
-
-const { publicRuntimeConfig } = getConfig();
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 
 const defaultValues = {
   password: '',
@@ -31,6 +29,7 @@ const useLogin = ({
   const [loader, setLoader] = useState(false);
   const { setLoginData } = useContext(AppContext);
   const [isVerified, setIsVerified] = useState(false);
+  const { executeRecaptcha } = useRecaptcha();
   // const [isForgetPassword, setIsForgetPassword] = useState(false);
 
   const {
@@ -84,12 +83,7 @@ const useLogin = ({
 
   const onSubmit = async (loginData) => {
     setLoader(true);
-    let token;
-    if (publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY) {
-      token = await window.grecaptcha.execute(publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY, {
-        action: 'login',
-      });
-    }
+    const token = await executeRecaptcha('login');
 
     try {
       const response = await commonApi({

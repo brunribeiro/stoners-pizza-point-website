@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import useTranslation from 'next-translate/useTranslation';
-import getConfig from 'next/config';
 
 import signupSchema from '@/schema/signUp';
 import commonApi from '@/services/api/common';
 import { getToastMessage } from '@/utils/common';
 import { USER_MESSAGES } from '@/utils/constant';
 import { trackSignupEvent, identifyUser } from '@/utils/analytics';
-
-const { publicRuntimeConfig } = getConfig();
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 
 const defaultValues = {
   first_name: '',
@@ -32,6 +30,7 @@ const useRegister = ({ setOpenRegister = () => {}, setSeconds = () => {} }) => {
   const [registerData, setRegisterData] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
   const { t } = useTranslation('common');
+  const { executeRecaptcha } = useRecaptcha();
 
   const {
     control,
@@ -69,12 +68,7 @@ const useRegister = ({ setOpenRegister = () => {}, setSeconds = () => {} }) => {
   const onSubmit = async (registerData) => {
     addInviteEmailAndTextKeys(registerData);
     setLoader(true);
-    let token;
-    if (publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY) {
-      token = await window.grecaptcha.execute(publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY, {
-        action: 'createAccount',
-      });
-    }
+    const token = await executeRecaptcha('createAccount');
     try {
       const response = await commonApi({
         action: 'registerUser',
