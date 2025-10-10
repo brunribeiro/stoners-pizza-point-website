@@ -5,8 +5,6 @@ import Script from 'next/script';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { ReactNotifications } from 'react-notifications-component';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@/styles/globals.css';
 import '@/styles/button.css';
 import 'react-notifications-component/dist/theme.css';
@@ -176,8 +174,6 @@ export default function App({ Component, pageProps }) {
             <MenuProvider>
               <ReactNotifications />
               <Component {...pageProps} />
-              <Analytics />
-              <SpeedInsights />
             </MenuProvider>
           </RestaurantProvider>
         </GoogleMapsProvider>
