@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import useTranslation from 'next-translate/useTranslation';
-import { useJsApiLoader } from '@react-google-maps/api';
 
 import AutocompleteSection from '@/shared/sidebar/AutocompleteSection';
 import PickupPanel from '@/shared/sidebar/PickupPanel';
@@ -11,6 +10,7 @@ import { useRestaurantCtx } from '@/contexts/restaurantContext';
 import { KEYS, SIDEBAR_TABS } from '@/utils/constant';
 import { LocalStorage } from '@/utils/localStorage';
 import { getOrderTypeContainerClass } from '@/utils/helper';
+import { useGoogleMaps } from '@/contexts/GoogleMapsContext';
 
 const SideBar = ({
   dt,
@@ -45,13 +45,7 @@ const SideBar = ({
   };
 
   const localDeliveryAddress = LocalStorage.getJSON(KEYS.TEMP_DELIVERY_ADDRESS);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    libraries: ['places', 'geometry'],
-    language: 'en',
-    region: 'US',
-  });
+  const { isLoaded } = useGoogleMaps(); // Use shared Google Maps context
   // Load saved tab on component mount
   useEffect(() => {
     if (typeof window !== 'undefined') {

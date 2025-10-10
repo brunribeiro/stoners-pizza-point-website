@@ -21,6 +21,7 @@ import { DEFAULT_NEXT_API_HEADER } from '@/utils/constant';
 import { setDeviceIdCookie } from '@/utils/common';
 import { RestaurantProvider } from '@/contexts/restaurantContext';
 import { MenuProvider } from '@/contexts/menuContext';
+import { GoogleMapsProvider } from '@/contexts/GoogleMapsContext';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -170,14 +171,16 @@ export default function App({ Component, pageProps }) {
       )}
 
       <AppContext.Provider value={contextValue}>
-        <RestaurantProvider>
-          <MenuProvider>
-            <ReactNotifications />
-            <Component {...pageProps} />
-            <Analytics />
-            <SpeedInsights />
-          </MenuProvider>
-        </RestaurantProvider>
+        <GoogleMapsProvider>
+          <RestaurantProvider>
+            <MenuProvider>
+              <ReactNotifications />
+              <Component {...pageProps} />
+              <Analytics />
+              <SpeedInsights />
+            </MenuProvider>
+          </RestaurantProvider>
+        </GoogleMapsProvider>
       </AppContext.Provider>
     </>
   );

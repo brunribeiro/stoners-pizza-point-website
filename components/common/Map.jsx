@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 
 import StoreDetail from '../Home/StoreDetail';
 import useRestaurantList from '../Home/hook/useRestaurantList';
@@ -8,6 +8,7 @@ import DrawerWrapper from '@/shared/drawer';
 import '@reach/combobox/styles.css';
 import AppContext from '@/utils/appContext';
 import Button from '@/widgets/button';
+import { useGoogleMaps } from '@/contexts/GoogleMapsContext';
 
 function Map({
   origin,
@@ -21,11 +22,7 @@ function Map({
   allowGeolocation = true,
 }) {
   const [openStoreDetail1, setOpenStoreDetail1] = useState(false);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    libraries: ['places', 'geometry'],
-  });
+  const { isLoaded } = useGoogleMaps(); // Use shared Google Maps context
 
   const mapRef = useRef(null); // To store map instance
   const [centerCoordinates, setCenterCoordinates] = useState({});
