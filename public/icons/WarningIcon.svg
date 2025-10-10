@@ -1,0 +1,28 @@
+<svg
+      xmlns='http://www.w3.org/2000/svg'
+      width="17"
+      height="17"
+      viewBox='0 0 17 17'
+      fill='none'
+    >
+      <path
+        fill='#A16600'
+        stroke='#A16600'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        stroke-width='1.5'
+        d='M1.152 9.217 4.88 1.782c.523-1.043 2.01-1.043 2.533 0l3.725 7.436a1.417 1.417 0 0 1-1.267 2.05H2.418a1.417 1.417 0 0 1-1.266-2.05'
+      ></path>
+      <path
+        stroke='#F9F8F6'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        stroke-width='1.5'
+        d='M6.1 4.3v2'
+      ></path>
+      <path
+        fill='#F9F8F6'
+        stroke='#F9F8F6'
+        d='M6.508 9.104a.354.354 0 1 1-.708 0 .354.354 0 0 1 .708 0Z'
+      ></path>
+    </svg>

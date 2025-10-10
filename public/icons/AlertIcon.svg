@@ -1,0 +1,10 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='96' height='95' fill='none' viewBox='0 0 96 95'>
+      <path
+        stroke='#9D9D9C'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        stroke-width='7.5'
+        d='M53.543 11.1 87.186 69.908c2.358 4.143-.688 9.258-5.543 9.258H14.357c-4.855 0-7.901-5.115-5.543-9.258L42.457 11.1c2.423-4.244 8.663-4.244 11.086 0zM48 47.5V31.667'
+      />
+      <circle cx='48' cy='63.334' r='3.75' fill='#9D9D9C' />
+    </svg>

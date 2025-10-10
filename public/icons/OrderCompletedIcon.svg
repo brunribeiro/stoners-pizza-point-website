@@ -1,0 +1,17 @@
+<svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='21'
+    height='20'
+    fill='none'
+    viewBox='0 0 21 20'
+    {...props}
+  >
+    <rect width='20' height='20' x='0.5' fill='#52AE32' rx='10'></rect>
+    <path
+      stroke='#fff'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+      stroke-width='1.5'
+      d='M5.5 10.938 8.543 14 15.5 7'
+    ></path>
+  </svg>
