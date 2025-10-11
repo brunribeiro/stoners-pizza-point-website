@@ -45,7 +45,7 @@ const LayoutWrapper = ({ children, childClassName = '', changeLocation, id = nul
     if (loginData?.userId) {
       dtCart.getCartCount();
     }
-  }, [loginData, dtCart.itemCount]);
+  }, [loginData?.userId]);
   const { ...dtuseModel } = useItemModel();
 
   return (

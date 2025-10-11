@@ -168,8 +168,27 @@ const useCart = () => {
     }
   };
 
+  // Request deduplication state
+  const getCartCountRef = React.useRef({ loading: false, lastCall: 0 });
+  const DEBOUNCE_DELAY = 500; // ms
+
   const getCartCount = async () => {
+    const now = Date.now();
+
+    // Debounce: if called within 500ms of last call, skip
+    if (now - getCartCountRef.current.lastCall < DEBOUNCE_DELAY) {
+      return;
+    }
+
+    // Deduplication: if already loading, skip
+    if (getCartCountRef.current.loading) {
+      return;
+    }
+
+    getCartCountRef.current.loading = true;
+    getCartCountRef.current.lastCall = now;
     setCountLoader(true);
+
     try {
       const response = await commonApi({
         action: 'getcartCount',
@@ -186,6 +205,7 @@ const useCart = () => {
     } catch (error) {
       console.error(error);
     } finally {
+      getCartCountRef.current.loading = false;
       setCountLoader(false);
     }
   };

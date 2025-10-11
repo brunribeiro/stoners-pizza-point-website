@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import useTranslation from 'next-translate/useTranslation';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,6 +10,14 @@ import { API_SUCCESS_RESPONSE, KEYS, SENTENCES } from '@/utils/constant';
 import { LocalStorage } from '@/utils/localStorage';
 import addressSchema from '@/schema/address';
 import Toast from '@/utils/toast';
+
+// Global deduplication state for address list API
+const addressLoadState = {
+  loading: false,
+  lastCall: 0,
+};
+
+const DEBOUNCE_DELAY = 500; // ms
 
 const useAddress = ({ fromSettings }) => {
   const { deliveryAddress, loginData, setSelectedLocation, selectedAddress, setSelectedAddress } =
@@ -122,6 +130,21 @@ const useAddress = ({ fromSettings }) => {
   };
 
   const getAddressList = async () => {
+    const now = Date.now();
+
+    // Debounce: if called within 500ms of last call, skip
+    if (now - addressLoadState.lastCall < DEBOUNCE_DELAY) {
+      return;
+    }
+
+    // Deduplication: if already loading, skip
+    if (addressLoadState.loading) {
+      return;
+    }
+
+    addressLoadState.loading = true;
+    addressLoadState.lastCall = now;
+
     const payload = {
       ...(loginData?.userId ? { userId: loginData?.userId } : {}),
     };
@@ -146,6 +169,7 @@ const useAddress = ({ fromSettings }) => {
     } catch (error) {
       handleErrorMessage(error, 'Failed to fetch address list');
     } finally {
+      addressLoadState.loading = false;
       setLoader((prev) => ({ ...prev, list: false }));
     }
   };

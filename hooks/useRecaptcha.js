@@ -3,13 +3,22 @@ import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
 
+// Global singleton state to prevent multiple reCAPTCHA loads
+let recaptchaLoadState = {
+  isLoaded: false,
+  isLoading: false,
+  promise: null,
+  script: null,
+  listeners: [],
+};
+
 /**
  * Custom hook to dynamically load Google reCAPTCHA v3 script
- * Only loads the script when this hook is called, avoiding global loading
+ * Uses a singleton pattern to ensure only ONE script is loaded globally
  * @returns {Object} { isLoaded: boolean, executeRecaptcha: function }
  */
 export const useRecaptcha = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(recaptchaLoadState.isLoaded);
   const captchaKey = publicRuntimeConfig.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY;
 
   useEffect(() => {
@@ -19,39 +28,83 @@ export const useRecaptcha = () => {
       return;
     }
 
-    // Check if reCAPTCHA is already loaded
-    if (window.grecaptcha) {
+    // If already loaded globally, update local state
+    if (recaptchaLoadState.isLoaded) {
       setIsLoaded(true);
       return;
     }
 
-    // Dynamically load reCAPTCHA script
+    // Add this component to listeners
+    const updateListener = (loaded) => setIsLoaded(loaded);
+    recaptchaLoadState.listeners.push(updateListener);
+
+    // If already loading, just wait for the existing load to complete
+    if (recaptchaLoadState.isLoading) {
+      // Cleanup listener on unmount
+      return () => {
+        recaptchaLoadState.listeners = recaptchaLoadState.listeners.filter(
+          (listener) => listener !== updateListener,
+        );
+      };
+    }
+
+    // Start loading reCAPTCHA (first call only)
+    recaptchaLoadState.isLoading = true;
+
+    // Check if script already exists in DOM
+    const existingScript = document.querySelector(
+      `script[src*="google.com/recaptcha/api.js"]`,
+    );
+    if (existingScript) {
+      // Script exists but may not be ready yet
+      if (window.grecaptcha && window.grecaptcha.ready) {
+        window.grecaptcha.ready(() => {
+          recaptchaLoadState.isLoaded = true;
+          recaptchaLoadState.isLoading = false;
+          recaptchaLoadState.listeners.forEach((listener) => listener(true));
+        });
+      }
+      return () => {
+        recaptchaLoadState.listeners = recaptchaLoadState.listeners.filter(
+          (listener) => listener !== updateListener,
+        );
+      };
+    }
+
+    // Create and load the script
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/api.js?render=${captchaKey}`;
     script.async = true;
     script.defer = true;
+    script.id = 'recaptcha-script';
+    recaptchaLoadState.script = script;
 
     script.onload = () => {
-      // Wait for grecaptcha.ready
-      if (window.grecaptcha) {
+      if (window.grecaptcha && window.grecaptcha.ready) {
         window.grecaptcha.ready(() => {
-          setIsLoaded(true);
+          recaptchaLoadState.isLoaded = true;
+          recaptchaLoadState.isLoading = false;
+          // Notify all listeners
+          recaptchaLoadState.listeners.forEach((listener) => listener(true));
         });
       }
     };
 
     script.onerror = () => {
       console.error('Failed to load reCAPTCHA script');
-      setIsLoaded(false);
+      recaptchaLoadState.isLoaded = false;
+      recaptchaLoadState.isLoading = false;
+      // Notify all listeners
+      recaptchaLoadState.listeners.forEach((listener) => listener(false));
     };
 
     document.head.appendChild(script);
 
+    // Cleanup listener on unmount (do NOT remove script)
     return () => {
-      // Cleanup: remove script on unmount
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+      recaptchaLoadState.listeners = recaptchaLoadState.listeners.filter(
+        (listener) => listener !== updateListener,
+      );
     };
   }, [captchaKey]);
 

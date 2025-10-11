@@ -1,7 +1,15 @@
-import { useEffect, useState, useCallback, useContext } from 'react';
+import { useEffect, useState, useCallback, useContext, useRef } from 'react';
 
 import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
+
+// Global deduplication state for loyalty API
+const loyaltyLoadState = {
+  loading: false,
+  lastCall: 0,
+};
+
+const DEBOUNCE_DELAY = 500; // ms
 
 const useRewards = (fromHeader = false) => {
   const [loader, setLoader] = useState(false);
@@ -10,7 +18,22 @@ const useRewards = (fromHeader = false) => {
   const { loginData, loyaltyData, setLoyaltyData } = useContext(AppContext);
 
   const callLoyalty = useCallback(async () => {
+    const now = Date.now();
+
+    // Debounce: if called within 500ms of last call, skip
+    if (now - loyaltyLoadState.lastCall < DEBOUNCE_DELAY) {
+      return;
+    }
+
+    // Deduplication: if already loading, skip
+    if (loyaltyLoadState.loading) {
+      return;
+    }
+
+    loyaltyLoadState.loading = true;
+    loyaltyLoadState.lastCall = now;
     setLoader(true);
+
     try {
       const { data } = await commonApi({ action: 'getLoyalty' });
       setLoyaltyData(data);
@@ -18,9 +41,11 @@ const useRewards = (fromHeader = false) => {
       console.error('Error fetching loyalty data:', error);
       setLoyaltyData();
     } finally {
+      loyaltyLoadState.loading = false;
       setLoader(false);
     }
-  }, []);
+  }, [setLoyaltyData]);
+
   const getRewardHistory = useCallback(async () => {
     setLoader(true);
     const payload = {
@@ -40,12 +65,14 @@ const useRewards = (fromHeader = false) => {
   }, []);
 
   useEffect(() => {
+    if (!loginData?.userId) return;
+
     if (fromHeader) {
       callLoyalty();
     } else {
       getRewardHistory();
     }
-  }, [callLoyalty, loginData]);
+  }, [loginData?.userId, fromHeader]);
 
   return { loader, callLoyalty, loyaltyData, showHistory, setShowHistory, history };
 };
