@@ -101,9 +101,9 @@ function setHeaders({
     axios.defaults.headers.common['inc-device'] = 'WEB';
   }
 
-  if (userAgent) {
-    axios.defaults.headers.post['User-Agent'] = userAgent;
-  }
+  // Note: User-Agent and host headers are automatically set by the browser
+  // and cannot be manually set in JavaScript for security reasons
+
   if (customDeviceId) {
     axios.defaults.headers.post['x-device-id'] = customDeviceId;
   } else {
@@ -115,10 +115,6 @@ function setHeaders({
 
   if (timezone) {
     axios.defaults.headers.post.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  }
-
-  if (host) {
-    axios.defaults.headers.post['host'] = baseUrl;
   }
 
   if (contentType) {

@@ -106,8 +106,9 @@ const RestaurantCard = ({
               rest.id === localRestId || isChange ? 'border-primary' : 'border-light-border'
             } cursor-pointer mb-4 p-3 px-[19px] pb-5 xl:px-7 bg-white ${index === 0 && 'mt-[10px]'}`}
             key={rest.id}
+            onClick={() => handleSelectStore(rest)}
           >
-            <button className='w-full text-left' onClick={() => handleSelectStore(rest)}>
+            <div className='w-full text-left'>
               <div className='flex flex-col gap-4'>
                 <div className='flex flex-col gap-1'>
                   <div className='flex justify-between items-center'>
@@ -215,7 +216,7 @@ const RestaurantCard = ({
                 </div>
               </div>
               {orderButtons(rest)}
-            </button>
+            </div>
           </div>
         );
       })}

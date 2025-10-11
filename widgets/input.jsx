@@ -73,8 +73,7 @@ const Input = ({
           disabled={disabled}
           aria-label={ariaLabel}
           type={type}
-          value={value}
-          defaultValue={defaultValue}
+          {...(value !== undefined ? { value } : { defaultValue })}
           onChange={onChange}
           onKeyDown={onKeyDown}
           onFocus={() => setIsFocused(true)}
