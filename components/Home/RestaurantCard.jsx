@@ -107,6 +107,15 @@ const RestaurantCard = ({
             } cursor-pointer mb-4 p-3 px-[19px] pb-5 xl:px-7 bg-white ${index === 0 && 'mt-[10px]'}`}
             key={rest.id}
             onClick={() => handleSelectStore(rest)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleSelectStore(rest);
+              }
+            }}
+            role='button'
+            tabIndex={0}
+            aria-label={`Select ${rest?.name} restaurant`}
           >
             <div className='w-full text-left'>
               <div className='flex flex-col gap-4'>
