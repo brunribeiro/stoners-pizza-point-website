@@ -52,54 +52,76 @@ export default function App({ Component, pageProps }) {
     if (!contextValue.menuRestId?.menuId) fetchSessionIds();
   }, [router.asPath]);
 
-  // Initialize and identify user with Atlas (only for logged-in users)
+  // Initialize and identify user with Atlas (only for logged-in users and when enabled)
   useEffect(() => {
     const { email, name, userId, phoneNumber } = contextValue.loginData || {};
-    if (!email) return; // Only run for logged-in users
+    if (!email || publicRuntimeConfig.NEXT_PUBLIC_ENABLE_ATLAS === 'false') return;
 
     const initAtlas = () => {
-      if (!window.Atlas) {
-        console.error('Atlas SDK failed to load');
-        return;
+      try {
+        if (!window.Atlas) {
+          console.error('Atlas SDK failed to load');
+          return;
+        }
+
+        // Configure Atlas
+        window.Atlas.call('config', {
+          position: 'bottom-right',
+        });
+
+        // Start Atlas chat
+        window.Atlas.call('start', {
+          chat: {
+            position: 'bottomRight',
+            offset: [30, 30],
+            hideBubble: true,
+            openIncoming: true,
+          },
+        });
+
+        // Identify the user
+        window.Atlas.call('identify', {
+          userId,
+          name,
+          email,
+          phoneNumber: phoneNumber,
+          customFields: {
+            account: 'Stoners Pizza',
+          },
+        });
+      } catch (error) {
+        console.error('Error initializing Atlas:', error);
       }
-
-      // Configure Atlas
-      window.Atlas.call('config', {
-        position: 'bottom-right',
-      });
-
-      // Start Atlas chat
-      window.Atlas.call('start', {
-        chat: {
-          position: 'bottomRight',
-          offset: [30, 30],
-          hideBubble: true,
-          openIncoming: true,
-        },
-      });
-
-      // Identify the user
-      window.Atlas.call('identify', {
-        userId,
-        name,
-        email,
-        phoneNumber: phoneNumber,
-        customFields: {
-          account: 'Stoners Pizza',
-        },
-      });
     };
 
-    // Wait for Atlas to load before initializing
-    const checkAtlasLoaded = setInterval(() => {
-      if (window.Atlas && typeof window.Atlas.call === 'function') {
-        clearInterval(checkAtlasLoaded);
-        initAtlas();
-      }
-    }, 100); // Check every 100ms
+    // Wait for both DOM to be ready and Atlas to load
+    let checkAtlasLoaded;
+    const startAtlasInit = () => {
+      checkAtlasLoaded = setInterval(() => {
+        if (window.Atlas && typeof window.Atlas.call === 'function') {
+          clearInterval(checkAtlasLoaded);
+          // Use requestIdleCallback or setTimeout to defer Atlas initialization
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(() => initAtlas(), { timeout: 2000 });
+          } else {
+            setTimeout(() => initAtlas(), 1000);
+          }
+        }
+      }, 100);
+    };
+
+    // Ensure DOM is fully loaded before attempting to initialize Atlas
+    if (document.readyState === 'complete') {
+      startAtlasInit();
+    } else {
+      window.addEventListener('load', startAtlasInit);
+    }
 
     // Cleanup interval on unmount
-    return () => clearInterval(checkAtlasLoaded);
+    return () => {
+      if (checkAtlasLoaded) clearInterval(checkAtlasLoaded);
+      window.removeEventListener('load', startAtlasInit);
+    };
   }, [contextValue.loginData?.email]);
 
   // Initialize fast navigation
@@ -123,32 +145,40 @@ export default function App({ Component, pageProps }) {
         <meta property='og:type' content='website' />
       </Head>
 
-      {/* Atlas Widget Script - Only load for logged-in users */}
-      {contextValue.loginData?.email && (
-        <Script
-          id='atlas-snippet'
-          strategy='afterInteractive'
-          dangerouslySetInnerHTML={{
-            __html: `
+      {/* Atlas Widget Script - Only load for logged-in users and when enabled */}
+      {contextValue.loginData?.email &&
+        publicRuntimeConfig.NEXT_PUBLIC_ENABLE_ATLAS !== 'false' && (
+          <Script
+            id='atlas-snippet'
+            strategy='lazyOnload'
+            dangerouslySetInnerHTML={{
+              __html: `
               (() => {
                 "use strict";
-                var t, e = {
-                  appId: "ld2n10pcuu",
-                  v: 2,
-                  q: [],
-                  call: function () { this.q.push(arguments); }
-                };
-                window.Atlas = e;
-                var n = document.createElement("script");
-                n.async = true;
-                n.src = "https://app.atlas.so/client-js/atlas.bundle.js";
-                var s = document.getElementsByTagName("script")[0];
-                (t = s.parentNode) && t.insertBefore(n, s);
+                try {
+                  var t, e = {
+                    appId: "ld2n10pcuu",
+                    v: 2,
+                    q: [],
+                    call: function () { this.q.push(arguments); }
+                  };
+                  window.Atlas = e;
+                  var n = document.createElement("script");
+                  n.async = true;
+                  n.src = "https://app.atlas.so/client-js/atlas.bundle.js";
+                  n.onerror = function() {
+                    console.error("Failed to load Atlas widget");
+                  };
+                  var s = document.getElementsByTagName("script")[0];
+                  (t = s.parentNode) && t.insertBefore(n, s);
+                } catch (error) {
+                  console.error("Error loading Atlas:", error);
+                }
               })();
             `,
-          }}
-        />
-      )}
+            }}
+          />
+        )}
 
       {/* PostHog Analytics - Deferred loading with idle callback */}
       {publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY &&

@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next -p 1124",
-    "dev:vercel": "vercel dev --listen 1124",
+    "predev": "node scripts/kill-port.js 3000",
+    "dev": "next -p 3000",
+    "dev:vercel": "node scripts/kill-port.js 3000 && vercel dev --listen 3000",
+    "dev:legacy": "next -p 1124",
     "build": "next build",
     "build:vercel": "vercel build",
     "analyze": "ANALYZE=true next build",

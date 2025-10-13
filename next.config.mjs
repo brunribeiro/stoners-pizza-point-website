@@ -71,6 +71,7 @@ const nextConfig = {
     NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY: process.env.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    NEXT_PUBLIC_ENABLE_ATLAS: process.env.NEXT_PUBLIC_ENABLE_ATLAS,
   },
 
   webpack: (config, { isServer }) => {

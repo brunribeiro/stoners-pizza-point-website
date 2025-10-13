@@ -8,12 +8,26 @@ This is a Next.js e-commerce website for Stoner's Pizza Joint, built with React 
 
 ## Development Commands
 
-### Basic Development
+### Local Development
 
-- `npm run dev` - Start development server on port 1124
+- `npm run dev` - Start development server on port 3000 (auto-kills existing process)
+- `npm run dev:vercel` - Start Vercel dev server on port 3000 with Vercel environment (auto-kills existing process)
+- `npm run dev:legacy` - Start development server on legacy port 1124
 - `npm run build` - Build the production application
 - `npm start` - Start production server on port 8124
 - `npm run start-prod` - Start production server on port 8010
+
+**Port Management:**
+- All local development now uses port 3000 by default
+- The `predev` script automatically kills any process on port 3000 before starting
+- Manual port cleanup: `node scripts/kill-port.js <port-number>`
+
+**Vercel Local Development:**
+- Use `npm run dev:vercel` to run with Vercel's local environment
+- Simulates serverless functions and pulls environment variables from Vercel
+- First-time setup: `vercel link` to connect your local project to Vercel
+- Pull environment variables: `vercel env pull .env.local`
+- See [LOCAL_DEVELOPMENT.md](./LOCAL_DEVELOPMENT.md) for detailed guide
 
 ### Code Quality
 

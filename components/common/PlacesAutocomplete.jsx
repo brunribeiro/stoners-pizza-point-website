@@ -347,19 +347,15 @@ const PlacesAutocomplete = forwardRef(
               data-tooltip-id='your-location'
               data-tooltip-content='Your Location'
               aria-label='Use your current location'
-              className={`absolute text-black hover:text-primary bg-white duration-300 right-5 top-4 min-w-[44px] min-h-[44px] flex items-center justify-center ${
-                isChange ? '!top-[16px] !right-4' : ''
-              }`}
+              className='absolute text-black hover:text-primary duration-300 right-4 top-[25px] -translate-y-1/2 p-2 flex items-center justify-center leading-none z-10'
             >
-              <LocationIcon />
+              <LocationIcon size='22' />
               <Tooltip id='your-location' />
             </button>
           )}
 
           {loader && (
-            <div
-              className={`absolute text-black hover:text-primary bg-white duration-300 right-[13px] top-[13px] ${isChange ? '!top-[12px] !right-3' : ''}`}
-            >
+            <div className='absolute text-black hover:text-primary bg-white duration-300 right-4 top-1/2 transform -translate-y-1/2'>
               <SmallLoader />
             </div>
           )}
