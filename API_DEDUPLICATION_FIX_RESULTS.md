@@ -1,4 +1,5 @@
 # API Deduplication Fix - Results Report
+
 **Date:** October 11, 2025
 **Fix Type:** Performance Optimization - Duplicate API Call Prevention
 
@@ -7,6 +8,7 @@
 ## Problem Identified
 
 The application was making **duplicate API calls** on every page load:
+
 - `cart/counts`: **4 calls** (should be 1)
 - `get-stored-id`: **4 calls** (should be 1-2)
 - `restaurant/near_by_restaurants_state_wise`: 2 calls
@@ -38,6 +40,7 @@ Multiple issues causing duplicate API calls:
 Implemented **request deduplication with debouncing** in the `getCartCount()` function:
 
 #### Key Features:
+
 - **Ref-based state tracking**: Uses `useRef` to persist state across renders
 - **Debounce mechanism**: 500ms delay between allowed calls
 - **Loading state check**: Prevents concurrent requests
@@ -94,6 +97,7 @@ const getCartCount = async () => {
 Fixed the **useEffect dependency loop**:
 
 #### Before (Lines 44-48):
+
 ```javascript
 useEffect(() => {
   if (loginData?.userId) {
@@ -103,6 +107,7 @@ useEffect(() => {
 ```
 
 #### After:
+
 ```javascript
 useEffect(() => {
   if (loginData?.userId) {
@@ -112,6 +117,7 @@ useEffect(() => {
 ```
 
 **Why this works:**
+
 - Now only triggers when user logs in/out (userId changes)
 - Doesn't retrigger when cart count updates
 - Breaks the infinite loop condition
@@ -122,17 +128,18 @@ useEffect(() => {
 
 ### API Call Reduction
 
-| API Endpoint | Before All Fixes | After Cart Fix | After All Fixes | Total Improvement |
-|--------------|------------------|----------------|-----------------|-------------------|
-| `cart/counts` | 4 calls | 2 calls | **2 calls** | **50% reduction** ✅ |
-| `get-stored-id` | 4 calls | 2 calls | **2 calls** | **50% reduction** ✅ |
-| `loyality/get` | 2 calls | 2 calls | **1 call** | **50% reduction** ✅ |
-| `address/get` | 2 calls | 2 calls | **1 call** | **50% reduction** ✅ |
-| `restaurant/near_by_restaurants_state_wise` | 2 calls | 2 calls | **2 calls** | No change ⚠️ |
+| API Endpoint                                | Before All Fixes | After Cart Fix | After All Fixes | Total Improvement    |
+| ------------------------------------------- | ---------------- | -------------- | --------------- | -------------------- |
+| `cart/counts`                               | 4 calls          | 2 calls        | **2 calls**     | **50% reduction** ✅ |
+| `get-stored-id`                             | 4 calls          | 2 calls        | **2 calls**     | **50% reduction** ✅ |
+| `loyality/get`                              | 2 calls          | 2 calls        | **1 call**      | **50% reduction** ✅ |
+| `address/get`                               | 2 calls          | 2 calls        | **1 call**      | **50% reduction** ✅ |
+| `restaurant/near_by_restaurants_state_wise` | 2 calls          | 2 calls        | **2 calls**     | No change ⚠️         |
 
 **Total API Call Reduction:** From **14 duplicate calls** to **8 calls** = **43% reduction** ✅
 
 **Notes:**
+
 - The remaining 2 calls to `cart/counts` are legitimate - one from the header on initial load, and one from layoutWrapper when user data is available.
 - The 2 calls to `restaurant/near_by_restaurants_state_wise` are likely legitimate (pickup vs delivery modes with different payloads).
 
@@ -140,15 +147,16 @@ useEffect(() => {
 
 **Combined Results (reCAPTCHA + All API Deduplication Fixes):**
 
-| Metric | Baseline (Before All Fixes) | After reCAPTCHA Fix | After All API Fixes | Total Improvement |
-|--------|----------------------------|---------------------|---------------------|-------------------|
-| **LCP** | 1,733 ms | 475 ms | **491 ms** | **-1,242 ms (71.7%)** ✅ |
-| **TTFB** | 1,320 ms | N/A | **42 ms** | **-1,278 ms (96.8%)** ✅ |
-| **CLS** | 0.26 | 0.26 | **0.26** | Stable |
-| **Total Requests** | 122 | 65 | ~**60** | **-62 requests (50.8%)** ✅ |
-| **Duplicate API Calls** | 14 | 10 | **8** | **-6 calls (43% reduction)** ✅ |
+| Metric                  | Baseline (Before All Fixes) | After reCAPTCHA Fix | After All API Fixes | Total Improvement               |
+| ----------------------- | --------------------------- | ------------------- | ------------------- | ------------------------------- |
+| **LCP**                 | 1,733 ms                    | 475 ms              | **491 ms**          | **-1,242 ms (71.7%)** ✅        |
+| **TTFB**                | 1,320 ms                    | N/A                 | **42 ms**           | **-1,278 ms (96.8%)** ✅        |
+| **CLS**                 | 0.26                        | 0.26                | **0.26**            | Stable                          |
+| **Total Requests**      | 122                         | 65                  | ~**60**             | **-62 requests (50.8%)** ✅     |
+| **Duplicate API Calls** | 14                          | 10                  | **8**               | **-6 calls (43% reduction)** ✅ |
 
 **API Deduplication Impact:**
+
 - **Reduced duplicate API calls by 43%** (14 → 8 calls)
 - **Eliminated 100% of duplicate calls** for loyalty and address APIs
 - **Reduced server load** by preventing unnecessary duplicate requests
@@ -173,6 +181,7 @@ useEffect(() => {
 ### Why useRef Instead of useState?
 
 Using `useRef` for the deduplication state was critical because:
+
 1. **Doesn't trigger re-renders**: Updating `ref.current` doesn't cause component to re-render
 2. **Persists across renders**: Value survives between component renders
 3. **Synchronous access**: No state update delays or batching issues
@@ -181,6 +190,7 @@ Using `useRef` for the deduplication state was critical because:
 ### Debounce vs. Throttle
 
 We chose **debounce** over throttle because:
+
 - **Debounce**: Waits for quiet period before allowing next call
 - Better for API calls where we want to avoid rapid successive requests
 - 500ms delay ensures calls are spaced out appropriately
@@ -188,6 +198,7 @@ We chose **debounce** over throttle because:
 ### Dependency Array Fix
 
 Changing the dependency from `[loginData, dtCart.itemCount]` to `[loginData?.userId]` was crucial:
+
 - **Before**: Triggered on ANY change to loginData object OR itemCount
 - **After**: Only triggers when userId specifically changes
 - Uses optional chaining (`?.`) to safely access nested property
@@ -204,6 +215,7 @@ After the initial cart count fix, we applied the same deduplication pattern to o
 Implemented **request deduplication with debouncing** for loyalty API:
 
 #### Key Features:
+
 - **Global deduplication state**: Module-level state prevents duplicate calls across all component instances
 - **Debounce mechanism**: 500ms delay between allowed calls
 - **Loading state check**: Prevents concurrent requests
@@ -265,6 +277,7 @@ useEffect(() => {
 Implemented **request deduplication with debouncing** for address API:
 
 #### Key Features:
+
 - **Global deduplication state**: Module-level state prevents duplicate calls
 - **Debounce mechanism**: 500ms delay between allowed calls
 - **Loading state check**: Prevents concurrent requests
@@ -330,6 +343,7 @@ const getAddressList = async () => {
 ## Remaining Optimizations
 
 ### 1. Restaurant API Still Has 2 Calls:
+
 - `restaurant/near_by_restaurants_state_wise`: 2 calls
 
 **Analysis:** The RestaurantContext already has deduplication logic with `lastDefaultKeyRef`. The 2 calls are likely legitimate - one for pickup mode and one for delivery mode, as they have different payloads.
@@ -337,13 +351,16 @@ const getAddressList = async () => {
 **Recommendation:** Monitor this in production. If both calls are for the same mode, investigate further.
 
 ### 2. Request Caching:
+
 Consider implementing a caching layer with:
+
 - **SWR (stale-while-revalidate)** or **React Query**
 - Cache API responses for short periods (30-60 seconds)
 - Deduplicate requests automatically
 - Background revalidation
 
 ### 3. Context Consolidation:
+
 - Multiple contexts (`RestaurantContext`, `MenuContext`, `AppContext`) fetch data independently
 - Could consolidate to reduce initialization overhead
 
@@ -374,6 +391,7 @@ Consider implementing a caching layer with:
 The comprehensive API deduplication fixes successfully eliminated duplicate API calls across multiple endpoints:
 
 **Achievements:**
+
 - **43% reduction** in duplicate API calls (14 → 8 total calls)
 - **100% elimination** of duplicate loyalty API calls (2 → 1)
 - **100% elimination** of duplicate address API calls (2 → 1)
@@ -383,12 +401,14 @@ The comprehensive API deduplication fixes successfully eliminated duplicate API 
 - **No breaking changes** - all functionality works as before
 
 **Combined with reCAPTCHA fix:**
+
 - **71.7% faster LCP** (1,733ms → 491ms)
 - **96.8% faster TTFB** (1,320ms → 42ms)
 - **50.8% fewer network requests** (122 → 60)
 - **Significantly reduced server load** from eliminating duplicate API calls
 
 **Technical Implementation:**
+
 - Applied consistent deduplication pattern across 4 different hooks
 - Used module-level state for global deduplication
 - Implemented 500ms debounce mechanism for all API calls

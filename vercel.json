@@ -1,0 +1,94 @@
+{
+  "headers": [
+    {
+      "source": "/font/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/icons/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).woff2",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).woff",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).webp",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).svg",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "images": {
+    "domains": [
+      "s3.amazonaws.com",
+      "incentivio.s3.amazonaws.com",
+      "incentivio.knovator.in",
+      "stonerspizzadirectus.techtris.app",
+      "techtris.stonerspizza.app",
+      "www.google.com",
+      "d1l12lvgx8sdvb.cloudfront.net"
+    ],
+    "minimumCacheTTL": 31536000
+  },
+  "rewrites": [
+    {
+      "source": "/monitoring",
+      "destination": "https://o4504451379290112.ingest.us.sentry.io/api/4504451383943168/envelope/"
+    }
+  ]
+}

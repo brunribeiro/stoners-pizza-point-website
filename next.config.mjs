@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 import nextTranslate from 'next-translate';
 import bundleAnalyzer from '@next/bundle-analyzer';
+import './lib/env.js';
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -34,8 +35,35 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
 
-  // Output optimization for Vercel
-  output: 'standalone',
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: `
+              default-src 'self';
+              script-src 'self' 'unsafe-eval' 'unsafe-inline' https://app.posthog.com https://app.atlas.so https://www.google.com https://maps.googleapis.com https://www.gstatic.com https://www.googletagmanager.com;
+              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+              font-src 'self' https://fonts.gstatic.com data:;
+              img-src 'self' data: https: blob:;
+              connect-src 'self' https://app.posthog.com https://incentivio.knovator.in https://techtris.stonerspizza.app https://maps.googleapis.com https://o4504451379290112.ingest.us.sentry.io;
+              frame-src 'self' https://www.google.com;
+              object-src 'none';
+              base-uri 'self';
+              form-action 'self';
+              frame-ancestors 'self';
+              upgrade-insecure-requests;
+            `
+              .replace(/\s{2,}/g, ' ')
+              .trim(),
+          },
+        ],
+      },
+    ];
+  },
 
   publicRuntimeConfig: {
     NEXT_PUBLIC_FETCH_URL: process.env.NEXT_PUBLIC_FETCH_URL,

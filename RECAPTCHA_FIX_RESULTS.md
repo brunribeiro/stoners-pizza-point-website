@@ -1,4 +1,5 @@
 # reCAPTCHA Singleton Fix - Results Report
+
 **Date:** October 11, 2025
 **Fix Type:** Performance Optimization - reCAPTCHA Duplication
 
@@ -7,6 +8,7 @@
 ## Problem Identified
 
 The application was loading **6 separate reCAPTCHA instances** on every page, causing:
+
 - Excessive network requests (~57 extra requests per page)
 - Slow page load times
 - Wasted bandwidth (~1.2MB+ of duplicated resources)
@@ -15,6 +17,7 @@ The application was loading **6 separate reCAPTCHA instances** on every page, ca
 ### Root Cause
 
 The `useRecaptcha` hook was being called by multiple components simultaneously:
+
 - `useLogin` hook (login modal)
 - `useRegister` hook (registration modal)
 - `useOrderPlace` hook (checkout page)
@@ -49,6 +52,7 @@ let recaptchaLoadState = {
 ```
 
 The hook now:
+
 - Checks if reCAPTCHA is already loaded globally
 - Adds components as listeners if loading is in progress
 - Only creates the script on the FIRST call
@@ -59,18 +63,21 @@ The hook now:
 ## Performance Results
 
 ### Before Fix:
+
 - **LCP**: 1,733 ms
 - **Total Network Requests**: 122
 - **reCAPTCHA Instances**: 6
 - **reCAPTCHA-related Requests**: ~30
 
 ### After Fix:
+
 - **LCP**: 475 ms ✅
 - **Total Network Requests**: 65 ✅
 - **reCAPTCHA Instances**: 1 ✅
 - **reCAPTCHA-related Requests**: ~5
 
 ### Improvements:
+
 - **LCP Improvement**: 1,258 ms faster **(72.6% improvement)**
 - **Request Reduction**: 57 fewer requests **(46.7% reduction)**
 - **reCAPTCHA Instances**: Reduced from 6 to 1 **(83.3% reduction)**
@@ -90,6 +97,7 @@ The hook now:
 ## Browser Compatibility
 
 The singleton pattern uses standard JavaScript features:
+
 - `window.grecaptcha` global check
 - `document.querySelector()` for DOM inspection
 - Array methods for listener management
@@ -120,6 +128,7 @@ The singleton pattern uses standard JavaScript features:
 ## Conclusion
 
 The reCAPTCHA singleton fix successfully eliminated a major performance bottleneck, resulting in:
+
 - **70%+ faster page loads**
 - **Nearly 50% fewer network requests**
 - **Improved user experience**

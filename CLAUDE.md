@@ -9,18 +9,21 @@ This is a Next.js e-commerce website for Stoner's Pizza Joint, built with React 
 ## Development Commands
 
 ### Basic Development
+
 - `npm run dev` - Start development server on port 1124
 - `npm run build` - Build the production application
 - `npm start` - Start production server on port 8124
 - `npm run start-prod` - Start production server on port 8010
 
 ### Code Quality
+
 - `npm run lint` - Run Next.js linter
 - `npm run check-lint` - Run ESLint with strict checks
 - `npm run check-format` - Check code formatting with Prettier
 - `npm run format` - Auto-format code with Prettier
 
 ### PM2 Deployment
+
 - `npm run init-dev` - Install dependencies, build, and start dev server with PM2
 - `npm run init-prod` - Install dependencies, build, and start prod server with PM2
 - `npm run serve` - Deploy and reload dev PM2 process (8124-stoner-website)
@@ -40,6 +43,7 @@ This application uses a **dynamic routing pattern** based on dining options:
 - Routes are centralized in `utils/routes.js`
 
 Example routes:
+
 - Menu: `/delivery/main-street/menu/categories`
 - Item detail: `/pickup/downtown/menu/categories/items/123`
 
@@ -115,6 +119,7 @@ The application uses **React Context** for global state management with three ma
 ## Code Style
 
 ### ESLint Rules (`.eslintrc.json`)
+
 - Strict equality required (`eqeqeq: error`)
 - Enforced import ordering with newlines between groups
 - SonarJS rules for code quality
@@ -122,6 +127,7 @@ The application uses **React Context** for global state management with three ma
 - Single quotes for strings (except to avoid escaping)
 
 ### Prettier Config (`.prettierrc`)
+
 - Single quotes with JSX single quotes
 - 2-space tabs, 100 character print width
 - Trailing commas, semicolons required
@@ -130,6 +136,7 @@ The application uses **React Context** for global state management with three ma
 ## Environment Variables
 
 Required runtime config (see `next.config.mjs`):
+
 - `NEXT_PUBLIC_FETCH_URL` - API base URL
 - `NEXT_PUBLIC_DOMAIN_URL` - Domain URL
 - `NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY` - Google reCAPTCHA key
@@ -139,21 +146,25 @@ Required runtime config (see `next.config.mjs`):
 ## Integration Services
 
 ### Sentry
+
 - Configured in `sentry.server.config.js`, `sentry.edge.config.js`, and `next.config.mjs`
 - Organization: `gf-5n`, Project: `stoners-pizza-joint-nextjs`
 - Tunnel route: `/monitoring`
 - Example error page: `/sentry-example-page`
 
 ### PostHog
+
 - Initialized in `pages/_app.js` with autocapture disabled
 - Manual event tracking required
 
 ### Atlas Chat Widget
+
 - Customer support chatbot loaded in `_app.js`
 - App ID: `ld2n10pcuu`
 - Positioned bottom-right, identifies logged-in users
 
 ### Google Maps
+
 - Used for location selection in delivery/pickup flows
 - Components: `PlacesAutocomplete.jsx`, `PlacesDelivery.jsx`, `PlacesPickup.jsx`, `Map.jsx`
 - Uses `@react-google-maps/api` and `use-places-autocomplete`
@@ -163,11 +174,13 @@ Required runtime config (see `next.config.mjs`):
 ### GitLab CI/CD (`.gitlab-ci.yml`)
 
 Three environments:
+
 - **dev**: Auto-deploys on tags matching `dev-[v]-*`
 - **uat**: Manual deploy on tags matching `uat-v-*`
 - **prod**: Manual deploy on tags matching `v-*`
 
 All deployments:
+
 1. SSH into target server
 2. Fetch and checkout the tag
 3. Run `npm run serve` or `npm run serve-prod`

@@ -66,16 +66,16 @@ async function convertImage(imagePath) {
     const originalSize = fs.statSync(imagePath).size;
 
     // Convert to WebP
-    await sharp(imagePath)
-      .webp({ quality: WEBP_QUALITY })
-      .toFile(webpPath);
+    await sharp(imagePath).webp({ quality: WEBP_QUALITY }).toFile(webpPath);
 
     // Get new file size
     const newSize = fs.statSync(webpPath).size;
-    const savings = ((originalSize - newSize) / originalSize * 100).toFixed(1);
+    const savings = (((originalSize - newSize) / originalSize) * 100).toFixed(1);
 
     console.log(`✅ ${path.basename(imagePath)} → ${path.basename(webpPath)}`);
-    console.log(`   ${(originalSize / 1024).toFixed(1)}KB → ${(newSize / 1024).toFixed(1)}KB (${savings}% smaller)`);
+    console.log(
+      `   ${(originalSize / 1024).toFixed(1)}KB → ${(newSize / 1024).toFixed(1)}KB (${savings}% smaller)`,
+    );
 
     stats.converted++;
     stats.originalSize += originalSize;
@@ -113,10 +113,15 @@ async function main() {
   console.log(`   ❌ Errors: ${stats.errors}`);
 
   if (stats.converted > 0) {
-    const totalSavings = ((stats.originalSize - stats.newSize) / stats.originalSize * 100).toFixed(1);
+    const totalSavings = (
+      ((stats.originalSize - stats.newSize) / stats.originalSize) *
+      100
+    ).toFixed(1);
     console.log(`   💾 Original size: ${(stats.originalSize / 1024).toFixed(1)}KB`);
     console.log(`   💾 New size: ${(stats.newSize / 1024).toFixed(1)}KB`);
-    console.log(`   🎉 Total savings: ${totalSavings}% (${((stats.originalSize - stats.newSize) / 1024).toFixed(1)}KB)`);
+    console.log(
+      `   🎉 Total savings: ${totalSavings}% (${((stats.originalSize - stats.newSize) / 1024).toFixed(1)}KB)`,
+    );
   }
 
   console.log('\n✨ Done!');

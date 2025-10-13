@@ -5,11 +5,14 @@ export default function Document() {
   return (
     <Html lang='en'>
       <Head>
-        {/* Preconnect to Google Fonts domains */}
+        {/* Preconnect to external domains for better performance */}
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='true' />
+        <link rel='dns-prefetch' href='https://app.posthog.com' />
+        <link rel='dns-prefetch' href='https://app.atlas.so' />
+        <link rel='dns-prefetch' href='https://maps.googleapis.com' />
 
-        {/* Preload custom fonts to prevent layout shift */}
+        {/* Preload critical custom fonts to prevent layout shift */}
         <link
           rel='preload'
           href='/font/Chivo-Regular.woff2'
@@ -24,23 +27,27 @@ export default function Document() {
           type='font/woff2'
           crossOrigin='anonymous'
         />
-      </Head>
-      <body>
-        <Main />
-        <NextScript />
-        {/* Load Google Fonts with media="print" trick to defer */}
+
+        {/* Load Google Fonts with display=swap for better performance */}
         <link
-          href='https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap'
+          href='https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap'
           rel='stylesheet'
           media='print'
           onLoad="this.media='all'"
         />
         <noscript>
           <link
-            href='https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap'
+            href='https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap'
             rel='stylesheet'
           />
         </noscript>
+
+        {/* Favicon */}
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );

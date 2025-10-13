@@ -52,9 +52,7 @@ export const useRecaptcha = () => {
     recaptchaLoadState.isLoading = true;
 
     // Check if script already exists in DOM
-    const existingScript = document.querySelector(
-      `script[src*="google.com/recaptcha/api.js"]`,
-    );
+    const existingScript = document.querySelector(`script[src*="google.com/recaptcha/api.js"]`);
     if (existingScript) {
       // Script exists but may not be ready yet
       if (window.grecaptcha && window.grecaptcha.ready) {

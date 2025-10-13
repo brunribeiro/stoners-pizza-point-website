@@ -53,7 +53,7 @@ const SideBar = ({
       if (savedTab) {
         setCurrentTab(parseInt(savedTab, 10));
       } else {
-        LocalStorage.setJSON(KEYS.SELECTED_TAB, 0)
+        LocalStorage.setJSON(KEYS.SELECTED_TAB, 0);
         setCurrentTab(0);
       }
     }
