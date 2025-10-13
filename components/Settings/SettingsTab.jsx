@@ -1,7 +1,7 @@
 import React from 'react';
 import useTranslation from 'next-translate/useTranslation';
 
-import MyCards from '../MyCards';
+// import MyCards from '../MyCards';
 
 import SettingsForm from './SettingsForm';
 import PersonalInfo from './PersonalInfo';
@@ -40,9 +40,9 @@ const SettingsTab = ({ dtSetting }) => {
         <OrderSMS dt={dtSetting} />
       </Section> */}
 
-      <Section id='payment-method' title={t`paymentMethod`}>
+      {/* <Section id='payment-method' title={t`paymentMethod`}>
         <MyCards fromSettings />
-      </Section>
+      </Section> */}
 
       <Section id='delete-account' last={true}>
         <DeleteAccount />

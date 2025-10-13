@@ -911,10 +911,7 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             d='M12 2L4 6V12C4 16.55 7.16 20.74 12 22C16.84 20.74 20 16.55 20 12V6L12 2Z'
             fill='#4CAF50'
           />
-          <path
-            d='M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z'
-            fill='white'
-          />
+          <path d='M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z' fill='white' />
         </svg>
         <span
           style={{

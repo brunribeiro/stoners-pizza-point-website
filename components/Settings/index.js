@@ -13,7 +13,7 @@ const Setting = () => {
   const { ...dtSetting } = useSettingForm();
   const [selectedOption, setSelectedOption] = useState('general');
 
-  const sidebarOptions = ['general', 'change password', 'addresses', 'payment method'];
+  const sidebarOptions = ['general', 'change password', 'addresses' /*, 'payment method' */];
   const scrollToSection = (id) => {
     setSelectedOption(id);
     const element = document.getElementById(id);

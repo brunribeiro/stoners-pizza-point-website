@@ -8,7 +8,7 @@ import useInbox from '../Inbox/hooks/useInbox';
 import { DEFAULT_IMAGE } from '@/utils/constant';
 import RightArrowIcon from '@/icons/rightArrowIcon';
 
-const AdsSlider = ({ showList = false }) => {
+const AdsSlider = () => {
   const { offerList, loader, customOfferList, handleCustomRewards } = useInbox({
     loadOffer: true,
   });
@@ -72,7 +72,7 @@ const AdsSlider = ({ showList = false }) => {
     );
   }
 
-  return (customOfferList?.length > 0 || offerList?.length > 0) ? (
+  return customOfferList?.length > 0 || offerList?.length > 0 ? (
     <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
       <div className='flex items-center relative max-w-full'>
         <div ref={sliderRef} className='keen-slider flex-1 max-w-full overflow-hidden'>
