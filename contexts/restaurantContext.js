@@ -67,8 +67,8 @@ export const RestaurantProvider = ({ children }) => {
       }
 
       // If we already have default data for the same key, skip to avoid flicker
-      const hasData = Array.isArray(defaultList) && defaultList.length > 0;
-      if (coordsKey && lastDefaultKeyRef.current === coordsKey && hasData) {
+      // Use ref check only to avoid dependency on defaultList state
+      if (coordsKey && lastDefaultKeyRef.current === coordsKey) {
         return;
       }
 
@@ -82,7 +82,7 @@ export const RestaurantProvider = ({ children }) => {
         return res;
       });
     },
-    [buildPayloadFor, pickupCoord, deliveryCoord, defaultList, userId],
+    [buildPayloadFor, pickupCoord, deliveryCoord, userId],
   );
 
   const doPickupSearch = useCallback(
@@ -91,11 +91,8 @@ export const RestaurantProvider = ({ children }) => {
       const effectiveCoord = coord ?? pickupCoord;
       const payload = buildPayloadFor(currentTab, effectiveCoord);
       const coordsKey = restaurantCoordKey(effectiveCoord);
-      const hasData =
-        Array.isArray(pickupSearchList) &&
-        pickupSearchList[0] !== false &&
-        pickupSearchList.length > 0;
-      if (coordsKey && lastPickupKeyRef.current === coordsKey && hasData) return;
+      // Use ref check only to avoid dependency on pickupSearchList state
+      if (coordsKey && lastPickupKeyRef.current === coordsKey) return;
       const res = await fetchNearbySearch({ payload, currentTab, coordsKey, userId });
       if (res?.code === API_SUCCESS_RESPONSE) {
         setPickupSearchList(res.data || []);
@@ -103,7 +100,7 @@ export const RestaurantProvider = ({ children }) => {
       }
       return res;
     },
-    [buildPayloadFor, pickupCoord, pickupSearchList, userId],
+    [buildPayloadFor, pickupCoord, userId],
   );
 
   const doDeliverySearch = useCallback(
@@ -112,11 +109,8 @@ export const RestaurantProvider = ({ children }) => {
       const effectiveCoord = coord ?? deliveryCoord;
       const payload = buildPayloadFor(currentTab, effectiveCoord);
       const coordsKey = restaurantCoordKey(effectiveCoord);
-      const hasData =
-        Array.isArray(deliverySearchList) &&
-        deliverySearchList[0] !== false &&
-        deliverySearchList.length > 0;
-      if (coordsKey && lastDeliveryKeyRef.current === coordsKey && hasData) return;
+      // Use ref check only to avoid dependency on deliverySearchList state
+      if (coordsKey && lastDeliveryKeyRef.current === coordsKey) return;
       const res = await fetchNearbySearch({ payload, currentTab, coordsKey, userId });
       if (res?.code === API_SUCCESS_RESPONSE) {
         setDeliverySearchList(res.data || []);
@@ -124,7 +118,7 @@ export const RestaurantProvider = ({ children }) => {
       }
       return res;
     },
-    [buildPayloadFor, deliveryCoord, deliverySearchList, userId],
+    [buildPayloadFor, deliveryCoord, userId],
   );
 
   // Debounced executors (300ms)
@@ -147,18 +141,15 @@ export const RestaurantProvider = ({ children }) => {
         return;
       }
       const key = restaurantCoordKey(effectiveCoord);
-      const hasData =
-        Array.isArray(pickupSearchList) &&
-        pickupSearchList[0] !== false &&
-        pickupSearchList.length > 0;
-      if (key && lastPickupKeyRef.current === key && hasData) {
+      // Use ref check only to avoid dependency loop
+      if (key && lastPickupKeyRef.current === key) {
         setLoader((p) => ({ ...p, list: false }));
         return;
       }
       setPickupSearchList([false]);
       debouncedPickupExec(effectiveCoord);
     },
-    [debouncedPickupExec, pickupCoord, pickupSearchList],
+    [debouncedPickupExec, pickupCoord],
   );
 
   const loadSearchByDelivery = useCallback(
@@ -170,11 +161,8 @@ export const RestaurantProvider = ({ children }) => {
         return;
       }
       const key = restaurantCoordKey(effectiveCoord);
-      const hasData =
-        Array.isArray(deliverySearchList) &&
-        deliverySearchList[0] !== false &&
-        deliverySearchList.length > 0;
-      if (key && lastDeliveryKeyRef.current === key && hasData) {
+      // Use ref check only to avoid dependency loop
+      if (key && lastDeliveryKeyRef.current === key) {
         setLoader((p) => ({ ...p, list: false }));
         return;
       }
@@ -183,7 +171,7 @@ export const RestaurantProvider = ({ children }) => {
       setDeliverySearchList([false]);
       debouncedDeliveryExec(effectiveCoord);
     },
-    [debouncedDeliveryExec, deliveryCoord, deliverySearchList],
+    [debouncedDeliveryExec, deliveryCoord],
   );
 
   const value = {
