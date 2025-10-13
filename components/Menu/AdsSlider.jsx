@@ -1,17 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import 'keen-slider/keen-slider.min.css';
 import { useKeenSlider } from 'keen-slider/react';
 import Image from 'next/image';
 
 import useInbox from '../Inbox/hooks/useInbox';
 
-import { DEFAULT_IMAGE } from '@/utils/constant';
+import { DEFAULT_IMAGE, KEYS } from '@/utils/constant';
 import RightArrowIcon from '@/icons/rightArrowIcon';
+import { LocalStorage } from '@/utils/localStorage';
 
 const AdsSlider = () => {
   const { offerList, loader, customOfferList, handleCustomRewards } = useInbox({
     loadOffer: true,
   });
+
+  // Filter customOfferList to only include items with valid restaurant mappings
+  const filteredCustomOfferList = useMemo(() => {
+    const restDetail = LocalStorage.getJSON(KEYS.RESTAURANT_DETAIL);
+    if (!restDetail?.id) return [];
+
+    return customOfferList.filter((ad) => {
+      // Check if the offer has items and at least one matches the current restaurant
+      return ad.item?.some((item) => item.restId === restDetail.id);
+    });
+  }, [customOfferList]);
 
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: false,
@@ -72,11 +84,11 @@ const AdsSlider = () => {
     );
   }
 
-  return customOfferList?.length > 0 || offerList?.length > 0 ? (
+  return filteredCustomOfferList?.length > 0 || offerList?.length > 0 ? (
     <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
       <div className='flex items-center relative max-w-full'>
         <div ref={sliderRef} className='keen-slider flex-1 max-w-full overflow-hidden'>
-          {customOfferList.map((ad) => (
+          {filteredCustomOfferList.map((ad) => (
             <div key={ad.id} className='keen-slider__slide px-1'>
               <button onClick={() => handleCustomRewards(ad)} className='block w-full'>
                 <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px]'>
@@ -106,7 +118,7 @@ const AdsSlider = () => {
           ))}
         </div>
 
-        {customOfferList.length + offerList.length >= 5 && (
+        {filteredCustomOfferList.length + offerList.length >= 5 && (
           <>
             <button
               onClick={() => instanceRef.current?.next()}
