@@ -156,6 +156,12 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             border-radius: 0 !important;
         }
 
+        /* Remove any internal borders from elements inside the CVV iframe */
+        #spreedly-cvv-test iframe * {
+            border: none !important;
+            outline: none !important;
+        }
+
         /* Ensure error div doesn't get unwanted styles */
         #cvv_error {
             border: none !important;
@@ -254,6 +260,11 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             display: flex;
         }
 
+        /* Hide the duplicate input fields below MM/YYYY */
+        .spf-exp-row input[type="text"] {
+            display: none !important;
+        }
+
         .spf-field-group {
             display: flex;
         }
@@ -292,6 +303,12 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             border-radius: 0 !important;
         }
 
+        /* Remove any internal borders from elements inside the iframe */
+        #spreedly-number-test iframe * {
+            border: none !important;
+            outline: none !important;
+        }
+
         /* Ensure error div doesn't get unwanted styles */
         #number_error {
             border: none !important;
@@ -300,20 +317,7 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             margin-bottom: 0.5em;
         }
 
-}
-
-
-#card_number {
-    display: block !important;
-    visibility: visible !important;
-    border-radius: 8px !important;
-    border: 3px solid #ccc !important;
-    padding: 0.8em 1em !important;
-    font-size: 14px !important;
-    min-height: 45px !important;
-    box-sizing: border-box !important;
-
-      select {
+        select {
             font: 400 12px/1.3 sans-serif;
             -webkit-appearance: none;
             appearance: none;
