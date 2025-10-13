@@ -25,6 +25,8 @@ export function GoogleMapsProvider({ children }) {
     libraries: LIBRARIES,
     language: 'en',
     region: 'US',
+    // Defer loading until user interaction
+    preventGoogleFontsLoading: true,
   });
 
   return (

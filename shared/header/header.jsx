@@ -396,11 +396,13 @@ const Header = ({ dtuseModel, cartLoad }) => {
               />
               <Tooltip id='cart' />
               {cartLoad || dtCart.countLoader ? (
-                <div className='absolute top-2 right-[5px]'>
+                <div className='absolute top-2 right-[5px] w-4 h-4 flex items-center justify-center'>
                   <SmallLoader />
                 </div>
               ) : (
-                <div className='absolute right-3 sm:top-2 sm:right-4'>{itemCount || 0}</div>
+                <div className='absolute right-3 sm:top-2 sm:right-4 min-w-[16px] text-center'>
+                  {itemCount || 0}
+                </div>
               )}
               <div className='ml-1 px-1'></div>
             </button>

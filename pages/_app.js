@@ -150,20 +150,36 @@ export default function App({ Component, pageProps }) {
         />
       )}
 
-      {/* PostHog Analytics - Deferred loading */}
+      {/* PostHog Analytics - Deferred loading with idle callback */}
       {publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY &&
         publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST && (
           <Script
             id='posthog-js'
             src='https://app.posthog.com/static/array.js'
-            strategy='lazyOnload'
+            strategy='worker'
             onLoad={() => {
-              if (window.posthog) {
-                window.posthog.init(publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY, {
-                  api_host: publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST,
-                  debug: false,
-                  autocapture: false,
+              // Load PostHog when browser is idle
+              if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(() => {
+                  if (window.posthog) {
+                    window.posthog.init(publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY, {
+                      api_host: publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST,
+                      debug: false,
+                      autocapture: false,
+                    });
+                  }
                 });
+              } else {
+                // Fallback for browsers that don't support requestIdleCallback
+                setTimeout(() => {
+                  if (window.posthog) {
+                    window.posthog.init(publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_KEY, {
+                      api_host: publicRuntimeConfig.NEXT_PUBLIC_POSTHOG_HOST,
+                      debug: false,
+                      autocapture: false,
+                    });
+                  }
+                }, 2000);
               }
             }}
           />

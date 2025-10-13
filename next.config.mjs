@@ -81,11 +81,32 @@ const nextConfig = {
         cacheGroups: {
           default: false,
           vendors: false,
+          // Shared components used across pages
           commons: {
             name: 'commons',
             chunks: 'all',
             minChunks: 2,
+            priority: 10,
           },
+          // Separate chunk for React and React-DOM
+          react: {
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'react',
+            priority: 30,
+          },
+          // Separate chunk for Google Maps
+          maps: {
+            test: /[\\/]node_modules[\\/](@react-google-maps|use-places-autocomplete)[\\/]/,
+            name: 'maps',
+            priority: 25,
+          },
+          // Separate chunk for UI libraries
+          ui: {
+            test: /[\\/]node_modules[\\/](@mui|@emotion|@headlessui)[\\/]/,
+            name: 'ui',
+            priority: 20,
+          },
+          // All other node_modules
           lib: {
             test: /[\\/]node_modules[\\/]/,
             name(module) {
@@ -93,6 +114,7 @@ const nextConfig = {
               const packageName = match ? match[1] : 'vendor';
               return `npm.${packageName.replace('@', '')}`;
             },
+            priority: 5,
           },
         },
       };
