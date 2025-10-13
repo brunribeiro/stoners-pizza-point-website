@@ -149,24 +149,47 @@ const RestaurantCard = ({
 
                   <div className=' bg-white rounded-lg'>
                     {(() => {
+                      // Helper to expand day ranges like "sat-fri" or "sun-thu"
+                      const fullDays = [
+                        'Sunday',
+                        'Monday',
+                        'Tuesday',
+                        'Wednesday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday',
+                      ];
+                      const abbrevDays = fullDays.map((day) => day.slice(0, 3).toLowerCase());
+
+                      const expandDays = (dayStr) => {
+                        if (dayStr === 'mon-sun') return fullDays;
+
+                        if (dayStr.includes('-')) {
+                          const [start, end] = dayStr.split('-');
+                          const startIndex = abbrevDays.indexOf(start.toLowerCase());
+                          const endIndex = abbrevDays.indexOf(end.toLowerCase());
+
+                          if (startIndex === -1 || endIndex === -1) return [];
+
+                          if (startIndex <= endIndex) {
+                            return fullDays.slice(startIndex, endIndex + 1);
+                          } else {
+                            // Handle wrap-around ranges like "sat-fri"
+                            return [
+                              ...fullDays.slice(startIndex),
+                              ...fullDays.slice(0, endIndex + 1),
+                            ];
+                          }
+                        }
+
+                        const idx = abbrevDays.indexOf(dayStr.toLowerCase());
+                        return idx !== -1 ? [fullDays[idx]] : [];
+                      };
+
                       // Find today's hours
                       const todayHours = rest?.hours?.find((hour) => {
-                        const days =
-                          hour.day === 'mon-sun'
-                            ? [
-                                'Monday',
-                                'Tuesday',
-                                'Wednesday',
-                                'Thursday',
-                                'Friday',
-                                'Saturday',
-                                'Sunday',
-                              ]
-                            : [hour.day];
-
-                        return days.some((day) => {
-                          return day.toLowerCase().includes(todaysDay.toLowerCase().slice(0, 3));
-                        });
+                        const days = expandDays(hour.day);
+                        return days.some((day) => day.toLowerCase() === todaysDay.toLowerCase());
                       });
 
                       // Always show open/closed status if currOpen is defined
