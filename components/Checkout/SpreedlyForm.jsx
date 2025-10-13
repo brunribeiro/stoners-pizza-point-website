@@ -67,7 +67,7 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
       }
 
         .spf-field-card-cvv-row {
-            display: inline-flex;
+            display: flex !important;
             width: 100%;
             margin-bottom: 1em;
             gap: 10px;
@@ -110,7 +110,8 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
         }
 
         .spf-card-number {
-            width: 100%;
+            flex: 1 1 70%;
+            min-width: 0;
         }
 
         /* Expiration date iframe styling - match other fields */
@@ -130,19 +131,37 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
     border: 3px solid #ccc;
  }
         .spf-cvv {
-            width: 100%;
+            flex: 0 0 30%;
+            max-width: 150px;
+            min-width: 100px;
         }
 
         /* Explicit CVV field styling for Safari - match other iframes */
-        #cvv, [name="cvv"], [id*="cvv"], [class*="cvv"] {
+        /* Only style the iframe container, not the error div or other elements */
+        #spreedly-cvv-test {
             display: block !important;
             visibility: visible !important;
             min-height: 45px !important;
             border-radius: 8px !important;
             border: 3px solid #ccc !important;
-            padding: 0.8em 1em !important;
-            font-size: 14px !important;
+            padding: 0 !important;
             box-sizing: border-box !important;
+            margin-top: 0.25em;
+        }
+
+        /* Style the iframe itself */
+        #spreedly-cvv-test iframe {
+            border: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        /* Ensure error div doesn't get unwanted styles */
+        #cvv_error {
+            border: none !important;
+            padding: 0 !important;
+            min-height: auto !important;
+            margin-bottom: 0.5em;
         }
 
         .spf-button {
@@ -254,8 +273,35 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             width: 100%;
         }
      
+        /* Card number iframe container styling */
+        #spreedly-number-test {
+            display: block !important;
+            visibility: visible !important;
+            min-height: 45px !important;
+            border-radius: 8px !important;
+            border: 3px solid #ccc !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            margin-top: 0.25em;
+        }
+
+        /* Style the card number iframe itself */
+        #spreedly-number-test iframe {
+            border: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        /* Ensure error div doesn't get unwanted styles */
+        #number_error {
+            border: none !important;
+            padding: 0 !important;
+            min-height: auto !important;
+            margin-bottom: 0.5em;
+        }
+
 }
- 
+
 
 #card_number {
     display: block !important;

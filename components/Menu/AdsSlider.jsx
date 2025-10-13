@@ -60,31 +60,26 @@ const AdsSlider = ({ showList = false }) => {
 
   if (loader.list) {
     return (
-      <div className={`overflow-hidden w-full mb-2 ${!showList ? 'sm:pt-4 !mx-0' : 'p-1 mx-auto'}`}>
-        <div className={`overflow-hidden w-full ${!showList && '!ml-0'} `}>
-          <div className={`${!showList ? 'keen-slider gap-4' : 'flex flex-col gap-5 w-full'}`}>
-            {[1, 2, 3, 4, 5].map((_, index) => (
-              <div key={index} className='px-1'>
-                <div className='relative rounded-xl bg-gray-200 shimmer min-w-[232px] h-[130px]' />
-              </div>
-            ))}
-          </div>
+      <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
+        <div className='flex gap-3 overflow-x-auto no-scrollbar'>
+          {[1, 2, 3, 4, 5].map((_, index) => (
+            <div key={index} className='flex-shrink-0'>
+              <div className='relative rounded-2xl bg-gray-200 shimmer w-[232px] h-[130px]' />
+            </div>
+          ))}
         </div>
       </div>
     );
   }
 
-  return customOfferList?.length > 0 && !showList ? (
-    <div className='!mx-0 container !max-w-full w-full sm:pt-4 mb-2'>
-      <div className='flex items-center relative'>
-        <div ref={sliderRef} className='keen-slider flex-1'>
+  return (customOfferList?.length > 0 || offerList?.length > 0) && !showList ? (
+    <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
+      <div className='flex items-center relative max-w-full'>
+        <div ref={sliderRef} className='keen-slider flex-1 max-w-full overflow-hidden'>
           {customOfferList.map((ad) => (
-            <div
-              key={ad.id}
-              className='keen-slider__slide px-1 !min-w-[240px] !max-w-[240px] !w-auto'
-            >
-              <button onClick={() => handleCustomRewards(ad)}>
-                <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px] max-w-full'>
+            <div key={ad.id} className='keen-slider__slide px-1'>
+              <button onClick={() => handleCustomRewards(ad)} className='block w-full'>
+                <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px]'>
                   <Image
                     src={ad.img}
                     alt={ad.title}
@@ -97,8 +92,8 @@ const AdsSlider = ({ showList = false }) => {
             </div>
           ))}
           {offerList?.map((ad) => (
-            <div key={ad.id} className='keen-slider__slide px-1 !min-w-[240px] !max-w-[240px]'>
-              <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px] max-w-full'>
+            <div key={ad.id} className='keen-slider__slide px-1'>
+              <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px]'>
                 <Image
                   src={ad.mediumImage || DEFAULT_IMAGE}
                   alt={ad.title}
@@ -115,14 +110,16 @@ const AdsSlider = ({ showList = false }) => {
           <>
             <button
               onClick={() => instanceRef.current?.next()}
-              className='absolute -right-4 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition'
+              className='absolute -right-2 md:-right-4 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition z-10'
+              aria-label='Next slide'
             >
               <RightArrowIcon width='14' height='12' />
             </button>
 
             <button
               onClick={() => instanceRef.current?.prev()}
-              className='absolute -left-4 rotate-180 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition'
+              className='absolute -left-2 md:-left-4 rotate-180 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition z-10'
+              aria-label='Previous slide'
             >
               <RightArrowIcon width='14' height='12' />
             </button>

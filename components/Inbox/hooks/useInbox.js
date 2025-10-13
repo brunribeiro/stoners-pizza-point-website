@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 
 import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';
@@ -14,6 +14,19 @@ import {
 } from '@/utils/constant';
 import { LocalStorage } from '@/utils/localStorage';
 import routes from '@/utils/routes';
+
+// Cache for offer list - 5 minutes TTL
+const OFFER_CACHE_TTL = 5 * 60 * 1000;
+let offerListCache = null;
+let offerListCacheTime = 0;
+let ongoingOfferRequest = null;
+
+// Export function to clear cache (useful for logout or manual refresh)
+export const clearOfferCache = () => {
+  offerListCache = null;
+  offerListCacheTime = 0;
+  ongoingOfferRequest = null;
+};
 
 const useInbox = ({
   setOpenPopup = () => {},
@@ -36,7 +49,26 @@ const useInbox = ({
 
   const router = useRouter();
 
-  const getOfferList = async () => {
+  const getOfferList = async (forceRefresh = false) => {
+    const now = Date.now();
+
+    // Return cached data if available and not expired
+    if (!forceRefresh && offerListCache && now - offerListCacheTime < OFFER_CACHE_TTL) {
+      setOfferList(offerListCache.offers);
+      setCustomOfferList(offerListCache.customOffers);
+      return;
+    }
+
+    // If there's an ongoing request, wait for it instead of creating a new one
+    if (ongoingOfferRequest) {
+      try {
+        await ongoingOfferRequest;
+      } catch (error) {
+        console.error('Failed to fetch offer list from ongoing request:', error);
+      }
+      return;
+    }
+
     const payload = {
       count: DEFAULT_COUNT,
       languageCode: DEFAULT_LNG,
@@ -45,19 +77,30 @@ const useInbox = ({
 
     setLoader((prev) => ({ ...prev, list: true }));
 
+    // Create the request promise and store it
+    ongoingOfferRequest = commonApi({
+      action: 'offerList',
+      data: payload,
+    });
+
     try {
-      const response = await commonApi({
-        action: 'offerList',
-        data: payload,
-      });
+      const response = await ongoingOfferRequest;
 
       if (response.code === API_SUCCESS_RESPONSE) {
-        setOfferList(response.data?.offerList?.offers);
-        setCustomOfferList(response.data?.customlist?.offers);
+        const offers = response.data?.offerList?.offers || [];
+        const customOffers = response.data?.customlist?.offers || [];
+
+        // Update cache
+        offerListCache = { offers, customOffers };
+        offerListCacheTime = Date.now();
+
+        setOfferList(offers);
+        setCustomOfferList(customOffers);
       }
     } catch (error) {
       console.error('Failed to fetch offer list:', error);
     } finally {
+      ongoingOfferRequest = null;
       setTimeout(() => {
         setLoader((prev) => ({ ...prev, list: false }));
       }, 200);
@@ -165,16 +208,29 @@ const useInbox = ({
     }
   };
 
+  const hasInitializedRef = useRef(false);
+  const prevLoginEmailRef = useRef(loginData.email);
+
   useEffect(() => {
-    if (!isCheckOut && loginData.email && !loadOffer) {
-      getMsgList();
-      getOfferList();
+    // Only fetch if user is logged in and we haven't initialized yet
+    // or if the user email has changed (different user logged in)
+    const userChanged = prevLoginEmailRef.current !== loginData.email;
+
+    if (!isCheckOut && loginData.email) {
+      if (!loadOffer && (!hasInitializedRef.current || userChanged)) {
+        getMsgList();
+        getOfferList();
+        hasInitializedRef.current = true;
+      }
+
+      if (loadOffer && (!hasInitializedRef.current || userChanged)) {
+        getOfferList();
+        hasInitializedRef.current = true;
+      }
     }
 
-    if (!isCheckOut && loadOffer) {
-      getOfferList();
-    }
-  }, [loginData]);
+    prevLoginEmailRef.current = loginData.email;
+  }, [loginData.email, isCheckOut, loadOffer]);
 
   return {
     offerList,
