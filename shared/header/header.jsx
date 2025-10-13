@@ -181,7 +181,7 @@ const Header = ({ dtuseModel, cartLoad }) => {
   };
 
   const renderDeal = () => {
-    return <AdsSlider showList={true} />;
+    return <AdsSlider vertical={true} />;
   };
 
   const renderPopup = () => {

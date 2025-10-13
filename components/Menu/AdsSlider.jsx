@@ -7,7 +7,7 @@ import { DEFAULT_IMAGE, KEYS } from '@/utils/constant';
 import RightArrowIcon from '@/icons/rightArrowIcon';
 import { LocalStorage } from '@/utils/localStorage';
 
-const AdsSlider = () => {
+const AdsSlider = ({ vertical = false }) => {
   const { offerList, loader, customOfferList, handleCustomRewards } = useInbox({
     loadOffer: true,
   });
@@ -46,11 +46,11 @@ const AdsSlider = () => {
   // Loading skeleton
   if (loader.list) {
     return (
-      <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
-        <div className='flex gap-3 overflow-x-auto no-scrollbar'>
+      <div className={`w-full ${vertical ? 'p-4' : 'sm:pt-4 mb-2 px-4 md:px-0'}`}>
+        <div className={`flex gap-3 ${vertical ? 'flex-col' : 'overflow-x-auto'} no-scrollbar`}>
           {[1, 2, 3, 4, 5].map((_, index) => (
-            <div key={index} className='flex-shrink-0'>
-              <div className='relative rounded-2xl bg-gray-200 shimmer w-[232px] h-[130px]' />
+            <div key={index} className={vertical ? 'w-full' : 'flex-shrink-0'}>
+              <div className={`relative rounded-2xl bg-gray-200 shimmer ${vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'}`} />
             </div>
           ))}
         </div>
@@ -61,23 +61,33 @@ const AdsSlider = () => {
   if (!hasOffers) return null;
 
   return (
-    <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
+    <div className={`w-full ${vertical ? 'p-4' : 'sm:pt-4 mb-2 px-4 md:px-0'}`}>
       <div className='relative group'>
-        {/* Horizontal scroll container */}
+        {/* Scroll container - horizontal or vertical */}
         <div
           ref={scrollContainerRef}
-          className='flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth'
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            WebkitOverflowScrolling: 'touch',
-          }}
+          className={`flex gap-3 ${
+            vertical 
+              ? 'flex-col' 
+              : 'overflow-x-auto scrollbar-hide scroll-smooth'
+          }`}
+          style={
+            vertical
+              ? {}
+              : {
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                  WebkitOverflowScrolling: 'touch',
+                }
+          }
         >
           {/* Custom offers */}
           {filteredCustomOfferList.map((ad) => (
-            <div key={ad.id} className='flex-shrink-0'>
+            <div key={ad.id} className={vertical ? 'w-full' : 'flex-shrink-0'}>
               <button onClick={() => handleCustomRewards(ad)} className='block w-full'>
-                <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px] hover:scale-105 transition-transform'>
+                <div className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
+                  vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
+                }`}>
                   <Image
                     src={ad.img}
                     alt={ad.title}
@@ -92,8 +102,10 @@ const AdsSlider = () => {
 
           {/* Regular offers */}
           {offerList?.map((ad) => (
-            <div key={ad.id} className='flex-shrink-0'>
-              <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px] hover:scale-105 transition-transform'>
+            <div key={ad.id} className={vertical ? 'w-full' : 'flex-shrink-0'}>
+              <div className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
+                vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
+              }`}>
                 <Image
                   src={ad.mediumImage || DEFAULT_IMAGE}
                   alt={ad.title}
@@ -106,8 +118,8 @@ const AdsSlider = () => {
           ))}
         </div>
 
-        {/* Navigation arrows - show only if there are enough items */}
-        {allOffers.length >= 3 && (
+        {/* Navigation arrows - show only in horizontal mode and if there are enough items */}
+        {!vertical && allOffers.length >= 3 && (
           <>
             <button
               onClick={() => scroll('right')}
