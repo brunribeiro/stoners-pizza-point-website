@@ -46,7 +46,7 @@ function Map({
     {
       featureType: 'all',
       elementType: 'labels.text.fill',
-      stylers: [{ color: '#ff0000' }], // Makes all text red
+      stylers: [{ color: '#000000' }], // Makes all text black
     },
     {
       featureType: 'road',
