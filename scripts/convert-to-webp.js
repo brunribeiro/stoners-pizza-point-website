@@ -6,9 +6,10 @@
  * Usage: node scripts/convert-to-webp.js
  */
 
-const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
+
+const sharp = require('sharp');
 
 // Configuration
 const PUBLIC_DIR = path.join(__dirname, '../public');
@@ -16,7 +17,7 @@ const SUPPORTED_FORMATS = ['.png', '.jpg', '.jpeg'];
 const WEBP_QUALITY = 85; // 85% quality for good balance between size and quality
 
 // Statistics
-let stats = {
+const stats = {
   converted: 0,
   skipped: 0,
   errors: 0,

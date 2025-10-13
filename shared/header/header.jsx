@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { getCookie } from 'cookies-next';
+import { Tooltip } from 'react-tooltip';
 
 import SideBar from '../sideBar';
 import ProfileDropDown from '../ProfileDropDown';
@@ -42,7 +43,6 @@ import ThreeLineIcon from '@/icons/ThreeLineIcon';
 import SmallLoader from '@/components/common/SmallLoader';
 import AdsSlider from '@/components/Menu/AdsSlider';
 import HelpIcon from '@/icons/HelpIcon';
-import { Tooltip } from 'react-tooltip';
 
 const Header = ({ dtuseModel, cartLoad }) => {
   const router = useRouter();

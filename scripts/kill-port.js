@@ -9,9 +9,7 @@ console.log(`🔍 Checking for processes on port ${port}...`);
 try {
   // For macOS/Linux, use lsof to find the process
   const command =
-    process.platform === 'win32'
-      ? `netstat -ano | findstr :${port}`
-      : `lsof -ti:${port}`;
+    process.platform === 'win32' ? `netstat -ano | findstr :${port}` : `lsof -ti:${port}`;
 
   const output = execSync(command, { encoding: 'utf8' }).trim();
 

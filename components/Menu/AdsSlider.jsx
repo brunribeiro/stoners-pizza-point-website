@@ -50,7 +50,9 @@ const AdsSlider = ({ vertical = false }) => {
         <div className={`flex gap-3 ${vertical ? 'flex-col' : 'overflow-x-auto'} no-scrollbar`}>
           {[1, 2, 3, 4, 5].map((_, index) => (
             <div key={index} className={vertical ? 'w-full' : 'flex-shrink-0'}>
-              <div className={`relative rounded-2xl bg-gray-200 shimmer ${vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'}`} />
+              <div
+                className={`relative rounded-2xl bg-gray-200 shimmer ${vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'}`}
+              />
             </div>
           ))}
         </div>
@@ -66,11 +68,7 @@ const AdsSlider = ({ vertical = false }) => {
         {/* Scroll container - horizontal or vertical */}
         <div
           ref={scrollContainerRef}
-          className={`flex gap-3 ${
-            vertical 
-              ? 'flex-col' 
-              : 'overflow-x-auto scrollbar-hide scroll-smooth'
-          }`}
+          className={`flex gap-3 ${vertical ? 'flex-col' : 'overflow-x-auto scrollbar-hide scroll-smooth'}`}
           style={
             vertical
               ? {}
@@ -85,9 +83,11 @@ const AdsSlider = ({ vertical = false }) => {
           {filteredCustomOfferList.map((ad) => (
             <div key={ad.id} className={vertical ? 'w-full' : 'flex-shrink-0'}>
               <button onClick={() => handleCustomRewards(ad)} className='block w-full'>
-                <div className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
-                  vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
-                }`}>
+                <div
+                  className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
+                    vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
+                  }`}
+                >
                   <Image
                     src={ad.img}
                     alt={ad.title}
@@ -103,9 +103,11 @@ const AdsSlider = ({ vertical = false }) => {
           {/* Regular offers */}
           {offerList?.map((ad) => (
             <div key={ad.id} className={vertical ? 'w-full' : 'flex-shrink-0'}>
-              <div className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
-                vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
-              }`}>
+              <div
+                className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
+                  vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
+                }`}
+              >
                 <Image
                   src={ad.mediumImage || DEFAULT_IMAGE}
                   alt={ad.title}

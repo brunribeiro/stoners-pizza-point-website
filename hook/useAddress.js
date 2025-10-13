@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import useTranslation from 'next-translate/useTranslation';
 import { yupResolver } from '@hookform/resolvers/yup';

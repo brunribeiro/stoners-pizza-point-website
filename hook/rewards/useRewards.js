@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useContext, useRef } from 'react';
+import { useEffect, useState, useCallback, useContext } from 'react';
 
 import commonApi from '@/services/api/common';
 import AppContext from '@/utils/appContext';

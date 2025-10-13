@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 import nextTranslate from 'next-translate';
 import bundleAnalyzer from '@next/bundle-analyzer';
-import './lib/env.js';
+import './lib/env.mjs';
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',

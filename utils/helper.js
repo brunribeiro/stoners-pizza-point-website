@@ -180,7 +180,7 @@ const timeDisplay = (date) => {
 const timeDisplayWithouUTC = (date, dateFormat = 'hh:mm A') => {
   return dayjs(date).format(dateFormat);
 };
-const getDuration = (startDate, endDate, dateFormat = 'hh:mm A') => {
+const getDuration = (startDate, endDate) => {
   const date1 = dayjs(startDate);
   const date2 = dayjs(endDate);
   return date2.diff(date1, 'minutes');
