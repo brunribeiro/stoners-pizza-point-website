@@ -110,7 +110,8 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
         }
 
         .spf-card-number {
-            width: 60%;
+            width: 70%;
+            flex: 0 0 70%;
         }
 
         /* Expiration date iframe styling - match other fields */
@@ -130,7 +131,9 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
     border: 3px solid #ccc;
  }
         .spf-cvv {
-            width: 30%;
+            width: 25%;
+            flex: 0 0 25%;
+            max-width: 150px;
         }
 
         /* Explicit CVV field styling for Safari - match other iframes */
@@ -313,6 +316,19 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             .spf-fs-name .spf-field {
                 width: 100% !important;
             }
+
+            /* Stack card number and CVV vertically on mobile */
+            .spf-field-card-cvv-row {
+                flex-direction: column;
+            }
+
+            .spf-card-number,
+            .spf-cvv {
+                width: 100% !important;
+                flex: 1 1 100% !important;
+                max-width: none !important;
+            }
+        }
     </style>
 `;
 
