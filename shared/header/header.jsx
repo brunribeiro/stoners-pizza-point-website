@@ -117,7 +117,7 @@ const Header = ({ dtuseModel, cartLoad }) => {
   const isLoggedIn = !!loginData?.email;
   const menuItems = [
     { href: routes.deals, icon: <LoyaltyCardIcon />, label: 'Loyalty' },
-    { href: routes.settings, label: 'My Accounts' },
+    { href: routes.settings, label: 'My Account' },
     { href: '#', icon: <EnterCodeIcon />, label: 'Enter Code', isButton: true },
     { href: '#', label: 'Sign Out', isButton: true, action: logout },
   ];

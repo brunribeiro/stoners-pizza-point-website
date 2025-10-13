@@ -72,7 +72,7 @@ const AdsSlider = ({ showList = false }) => {
     );
   }
 
-  return (customOfferList?.length > 0 || offerList?.length > 0) && !showList ? (
+  return (customOfferList?.length > 0 || offerList?.length > 0) ? (
     <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
       <div className='flex items-center relative max-w-full'>
         <div ref={sliderRef} className='keen-slider flex-1 max-w-full overflow-hidden'>
@@ -127,38 +127,7 @@ const AdsSlider = ({ showList = false }) => {
         )}
       </div>
     </div>
-  ) : (
-    <div className='mx-7'>
-      {customOfferList.map((ad) => (
-        <div key={ad.id} className=' px-1'>
-          <button onClick={() => handleCustomRewards(ad)}>
-            <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[400px] h-[150px] max-w-full mb-8'>
-              <Image
-                src={ad.img}
-                alt={ad.title}
-                title={ad.title}
-                fill
-                className='object-cover bg-gray-200'
-              />
-            </div>
-          </button>
-        </div>
-      ))}
-      {offerList.map((ad) => (
-        <div key={ad.id} className='px-1'>
-          <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[400px] h-[150px] max-w-full mb-8'>
-            <Image
-              src={ad.mediumImage || DEFAULT_IMAGE}
-              alt={ad.title}
-              title={ad.title}
-              fill
-              className='object-cover bg-gray-200'
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  ) : null;
 };
 
 export default AdsSlider;
