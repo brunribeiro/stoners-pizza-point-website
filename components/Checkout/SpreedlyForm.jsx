@@ -16,12 +16,19 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             box-sizing: border-box;
         }
 
-      
+        /* Safari-specific iframe fixes */
+        iframe {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            min-height: 60px !important;
+            border: none !important;
+        }
 
        .spf-form {
   background: #fff;
   border-radius: 30px;
- 
+
   min-width: 90%;
   width: 100%;
   margin:auto;
@@ -109,7 +116,14 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
  }
         .spf-cvv {
             width: 30%;
-            
+        }
+
+        /* Explicit CVV field styling for Safari */
+        #cvv, [name="cvv"], [id*="cvv"], [class*="cvv"] {
+            display: block !important;
+            visibility: visible !important;
+            min-height: 45px !important;
+            width: 100% !important;
         }
 
         .spf-button {
@@ -226,12 +240,15 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
 
 #card_number {
     margin-right: 10px;
-    display: block;
+    display: block !important;
+    visibility: visible !important;
     border-radius: 8px !important;
     border: 3px solid #ccc !important;
     padding: 0.8em 1em !important;
     font-size: 14px !important;
     margin-bottom: 0.5em;
+    min-height: 45px !important;
+    width: 100% !important;
 
       select {
             font: 400 12px/1.3 sans-serif;
@@ -313,22 +330,55 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
 
   // Expose a ref to the form element for direct access
   useEffect(() => {
+    // Detect Safari browser
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    let attempts = 0;
+    const maxAttempts = isSafari ? 20 : 10; // More attempts for Safari
+
     // Wait for the iframe to load
     const checkForIframe = setInterval(() => {
+      attempts++;
       const iframe = containerRef.current?.querySelector('iframe');
+
       if (iframe) {
         clearInterval(checkForIframe);
+        console.log(`✅ Spreedly iframe found after ${attempts} attempts`);
+
+        // Safari-specific: Force iframe visibility immediately
+        if (isSafari) {
+          iframe.style.display = 'block';
+          iframe.style.visibility = 'visible';
+          iframe.style.opacity = '1';
+          iframe.style.minHeight = '60px';
+          console.log('🍎 Applied Safari-specific iframe visibility fixes');
+        }
 
         // Try to access the iframe content when it's loaded
         iframe.addEventListener('load', () => {
           try {
             // Store a reference to the form element
             window.spreedlyFormElement = iframe;
-            console.log('âœ… Spreedly iframe reference stored');
+            console.log('✅ Spreedly iframe reference stored');
+
+            // Safari-specific: Additional visibility check after load
+            if (isSafari) {
+              setTimeout(() => {
+                // Double-check iframe is still visible
+                iframe.style.display = 'block';
+                iframe.style.visibility = 'visible';
+                iframe.style.opacity = '1';
+                console.log('🍎 Verified iframe visibility after load (Safari)');
+              }, 500);
+            }
           } catch (err) {
-            console.error('âŒ Could not access Spreedly iframe content:', err);
+            console.error('❌ Could not access Spreedly iframe content:', err);
           }
         });
+      }
+
+      if (!iframe && attempts >= maxAttempts) {
+        clearInterval(checkForIframe);
+        console.error(`âŒ Spreedly iframe not found after ${maxAttempts} attempts`);
       }
     }, 500);
 
@@ -758,8 +808,15 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
   }, [htmlContent, handleTokenReceived, handleClose]);
 
   return (
-    <div>
-      <div ref={containerRef} />
+    <div style={{ minHeight: '400px', width: '100%' }}>
+      <div
+        ref={containerRef}
+        style={{
+          minHeight: '350px',
+          width: '100%',
+          position: 'relative',
+        }}
+      />
     </div>
   );
 };

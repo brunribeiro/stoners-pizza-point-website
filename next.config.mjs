@@ -45,15 +45,15 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: `
               default-src 'self';
-              script-src 'self' 'unsafe-eval' 'unsafe-inline' https://app.posthog.com https://app.atlas.so https://www.google.com https://maps.googleapis.com https://www.gstatic.com https://www.googletagmanager.com;
+              script-src 'self' 'unsafe-eval' 'unsafe-inline' https://app.posthog.com https://app.atlas.so https://www.google.com https://maps.googleapis.com https://www.gstatic.com https://www.googletagmanager.com https://core.spreedly.com;
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               font-src 'self' https://fonts.gstatic.com data:;
               img-src 'self' data: https: blob:;
-              connect-src 'self' https://app.posthog.com https://incentivio.knovator.in https://techtris.stonerspizza.app https://maps.googleapis.com https://o4504451379290112.ingest.us.sentry.io;
-              frame-src 'self' https://www.google.com;
+              connect-src 'self' https://app.posthog.com https://incentivio.knovator.in https://techtris.stonerspizza.app https://maps.googleapis.com https://o4504451379290112.ingest.us.sentry.io https://core.spreedly.com;
+              frame-src 'self' https://www.google.com https://core.spreedly.com;
               object-src 'none';
               base-uri 'self';
-              form-action 'self';
+              form-action 'self' https://core.spreedly.com;
               frame-ancestors 'self';
               upgrade-insecure-requests;
             `
