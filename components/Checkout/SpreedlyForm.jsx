@@ -817,6 +817,49 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
           position: 'relative',
         }}
       />
+      {/* Security Trust Badge */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          marginTop: '16px',
+          padding: '12px',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px',
+          border: '1px solid #e0e0e0',
+        }}
+      >
+        <svg
+          width='20'
+          height='20'
+          viewBox='0 0 24 24'
+          fill='none'
+          xmlns='http://www.w3.org/2000/svg'
+          style={{ flexShrink: 0 }}
+        >
+          <path
+            d='M12 2L4 6V12C4 16.55 7.16 20.74 12 22C16.84 20.74 20 16.55 20 12V6L12 2Z'
+            fill='#4CAF50'
+          />
+          <path
+            d='M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z'
+            fill='white'
+          />
+        </svg>
+        <span
+          style={{
+            fontSize: '13px',
+            color: '#555',
+            fontWeight: '500',
+            lineHeight: '1.4',
+          }}
+        >
+          Your payment is encrypted and secured by{' '}
+          <strong style={{ color: '#333' }}>Spreedly</strong>
+        </span>
+      </div>
     </div>
   );
 };
