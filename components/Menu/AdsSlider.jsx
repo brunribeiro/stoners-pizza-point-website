@@ -1,6 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
-import 'keen-slider/keen-slider.min.css';
-import { useKeenSlider } from 'keen-slider/react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
 
 import useInbox from '../Inbox/hooks/useInbox';
@@ -14,8 +12,10 @@ const AdsSlider = () => {
     loadOffer: true,
   });
 
+  const scrollContainerRef = useRef(null);
+
   // Filter customOfferList to only include items with valid restaurant mappings
-  const filteredCustomOfferList = useMemo(() => {
+  const getFilteredCustomOffers = () => {
     const restDetail = LocalStorage.getJSON(KEYS.RESTAURANT_DETAIL);
     if (!restDetail?.id) return [];
 
@@ -23,53 +23,27 @@ const AdsSlider = () => {
       // Check if the offer has items and at least one matches the current restaurant
       return ad.item?.some((item) => item.restId === restDetail.id);
     });
-  }, [customOfferList]);
+  };
 
-  const [sliderRef, instanceRef] = useKeenSlider({
-    loop: false,
-    mode: 'snap',
-    slides: {
-      perView: 4.7,
-      spacing: 13,
-    },
-    breakpoints: {
-      '(max-width: 1024px)': {
-        slides: { perView: 2.5, spacing: 10 },
-      },
-      '(max-width: 768px)': {
-        slides: { perView: 1.5, spacing: 10 },
-      },
-      '(max-width: 640px)': {
-        slides: { perView: 1, spacing: 5 },
-      },
-    },
-    duration: 2000,
-    drag: true,
-  });
+  const filteredCustomOfferList = getFilteredCustomOffers();
+  const allOffers = [...filteredCustomOfferList, ...(offerList || [])];
+  const hasOffers = allOffers.length > 0;
 
-  useEffect(() => {
-    if (!instanceRef.current || offerList?.length === 0) return;
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 250; // Adjust scroll distance
+      const currentScroll = scrollContainerRef.current.scrollLeft;
+      const targetScroll =
+        direction === 'left' ? currentScroll - scrollAmount : currentScroll + scrollAmount;
 
-    const interval = setInterval(() => {
-      const slider = instanceRef.current;
-      if (!slider) return;
+      scrollContainerRef.current.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth',
+      });
+    }
+  };
 
-      const currentSlide = slider.track.details.rel;
-      const totalSlides = slider.track.details.slides.length;
-      const slidesPerView = slider.options.slides?.perView || 1;
-
-      const lastSlideIndex = totalSlides - slidesPerView;
-
-      if (currentSlide < lastSlideIndex) {
-        slider.next();
-      } else {
-        clearInterval(interval);
-      }
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [instanceRef, offerList?.length]);
-
+  // Loading skeleton
   if (loader.list) {
     return (
       <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
@@ -84,14 +58,26 @@ const AdsSlider = () => {
     );
   }
 
-  return filteredCustomOfferList?.length > 0 || offerList?.length > 0 ? (
+  if (!hasOffers) return null;
+
+  return (
     <div className='w-full sm:pt-4 mb-2 px-4 md:px-0'>
-      <div className='flex items-center relative max-w-full'>
-        <div ref={sliderRef} className='keen-slider flex-1 max-w-full overflow-hidden'>
+      <div className='relative group'>
+        {/* Horizontal scroll container */}
+        <div
+          ref={scrollContainerRef}
+          className='flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth'
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+          }}
+        >
+          {/* Custom offers */}
           {filteredCustomOfferList.map((ad) => (
-            <div key={ad.id} className='keen-slider__slide px-1'>
+            <div key={ad.id} className='flex-shrink-0'>
               <button onClick={() => handleCustomRewards(ad)} className='block w-full'>
-                <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px]'>
+                <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px] hover:scale-105 transition-transform'>
                   <Image
                     src={ad.img}
                     alt={ad.title}
@@ -103,9 +89,11 @@ const AdsSlider = () => {
               </button>
             </div>
           ))}
+
+          {/* Regular offers */}
           {offerList?.map((ad) => (
-            <div key={ad.id} className='keen-slider__slide px-1'>
-              <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px]'>
+            <div key={ad.id} className='flex-shrink-0'>
+              <div className='relative rounded-2xl overflow-hidden duration-300 bg-primary-light w-[232px] h-[130px] hover:scale-105 transition-transform'>
                 <Image
                   src={ad.mediumImage || DEFAULT_IMAGE}
                   alt={ad.title}
@@ -118,20 +106,21 @@ const AdsSlider = () => {
           ))}
         </div>
 
-        {filteredCustomOfferList.length + offerList.length >= 5 && (
+        {/* Navigation arrows - show only if there are enough items */}
+        {allOffers.length >= 3 && (
           <>
             <button
-              onClick={() => instanceRef.current?.next()}
-              className='absolute -right-2 md:-right-4 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition z-10'
-              aria-label='Next slide'
+              onClick={() => scroll('right')}
+              className='absolute -right-2 md:-right-4 top-1/2 -translate-y-1/2 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition z-10 opacity-0 group-hover:opacity-100'
+              aria-label='Scroll right'
             >
               <RightArrowIcon width='14' height='12' />
             </button>
 
             <button
-              onClick={() => instanceRef.current?.prev()}
-              className='absolute -left-2 md:-left-4 rotate-180 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition z-10'
-              aria-label='Previous slide'
+              onClick={() => scroll('left')}
+              className='absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 rotate-180 shadow-lg flex items-center justify-center bg-white p-2.5 rounded-full text-stone-black hover:bg-gray-100 transition z-10 opacity-0 group-hover:opacity-100'
+              aria-label='Scroll left'
             >
               <RightArrowIcon width='14' height='12' />
             </button>
@@ -139,7 +128,7 @@ const AdsSlider = () => {
         )}
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default AdsSlider;
