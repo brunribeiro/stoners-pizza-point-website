@@ -148,48 +148,48 @@ const RestaurantCard = ({
                   </div>
 
                   <div className=' bg-white rounded-lg'>
-                    {rest?.hours?.map((hour, index) => {
-                      const startTime = formatTime(hour.start);
-                      const endTime = formatTime(hour.end);
+                    {(() => {
+                      // Find today's hours
+                      const todayHours = rest?.hours?.find((hour) => {
+                        const days =
+                          hour.day === 'mon-sun'
+                            ? [
+                                'Monday',
+                                'Tuesday',
+                                'Wednesday',
+                                'Thursday',
+                                'Friday',
+                                'Saturday',
+                                'Sunday',
+                              ]
+                            : [hour.day];
 
-                      const days =
-                        hour.day === 'mon-sun'
-                          ? [
-                              'Monday',
-                              'Tuesday',
-                              'Wednesday',
-                              'Thursday',
-                              'Friday',
-                              'Saturday',
-                              'Sunday',
-                            ]
-                          : [hour.day];
-
-                      // Check if today's day matches any of the defined days
-                      const isToday = days.some((day) => {
-                        return day.toLowerCase().includes(todaysDay.toLowerCase().slice(0, 3));
+                        return days.some((day) => {
+                          return day.toLowerCase().includes(todaysDay.toLowerCase().slice(0, 3));
+                        });
                       });
 
-                      if (!isToday) return null;
+                      // Always show open/closed status if currOpen is defined
+                      if (rest.currOpen !== undefined) {
+                        const startTime = todayHours ? formatTime(todayHours.start) : null;
+                        const endTime = todayHours ? formatTime(todayHours.end) : null;
 
-                      return (
-                        <div
-                          key={`today-${index}`}
-                          className='flex items-center gap-2 text-sm py-1 capitalize'
-                        >
-                          <span
-                            className={`font-bold ${rest.currOpen ? 'text-green' : 'text-stone-black'}`}
-                          >
-                            {rest.currOpen ? 'OPEN' : 'CLOSED'}
-                          </span>
-                          {rest.currOpen && (
+                        return (
+                          <div className='flex items-center gap-2 text-sm py-1 capitalize'>
                             <span
-                              className={`font-medium ${rest.currOpen ? 'text-green' : 'text-stone-black'}`}
-                            >{`${startTime} - ${endTime}`}</span>
-                          )}
-                        </div>
-                      );
-                    })}
+                              className={`font-bold ${rest.currOpen ? 'text-green' : 'text-stone-black'}`}
+                            >
+                              {rest.currOpen ? 'OPEN' : 'CLOSED'}
+                            </span>
+                            {rest.currOpen && startTime && endTime && (
+                              <span className='font-medium text-green'>{`${startTime} - ${endTime}`}</span>
+                            )}
+                          </div>
+                        );
+                      }
+
+                      return null;
+                    })()}
                   </div>
 
                   <div className='flex items-center justify-between gap-6'>
