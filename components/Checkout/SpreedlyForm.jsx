@@ -70,6 +70,8 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             display: inline-flex;
             width: 100%;
             margin-bottom: 1em;
+            gap: 10px;
+            align-items: flex-start;
         }
 
         .spf-input-text {
@@ -110,6 +112,19 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
         .spf-card-number {
             width: 60%;
         }
+
+        /* Expiration date iframe styling - match other fields */
+        #month, [name="month"], [id*="month"],
+        #year, [name="year"], [id*="year"] {
+            display: block !important;
+            visibility: visible !important;
+            min-height: 45px !important;
+            border-radius: 8px !important;
+            border: 3px solid #ccc !important;
+            padding: 0.8em 1em !important;
+            font-size: 14px !important;
+            box-sizing: border-box !important;
+        }
  .input-outline-none{
     border-radius: 8px;
     border: 3px solid #ccc;
@@ -118,12 +133,16 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
             width: 30%;
         }
 
-        /* Explicit CVV field styling for Safari */
+        /* Explicit CVV field styling for Safari - match other iframes */
         #cvv, [name="cvv"], [id*="cvv"], [class*="cvv"] {
             display: block !important;
             visibility: visible !important;
             min-height: 45px !important;
-            width: 100% !important;
+            border-radius: 8px !important;
+            border: 3px solid #ccc !important;
+            padding: 0.8em 1em !important;
+            font-size: 14px !important;
+            box-sizing: border-box !important;
         }
 
         .spf-button {
@@ -239,16 +258,14 @@ const SpreedlyForm = ({ htmlContent, onTokenReceived, onClose, submitButton }) =
  
 
 #card_number {
-    margin-right: 10px;
     display: block !important;
     visibility: visible !important;
     border-radius: 8px !important;
     border: 3px solid #ccc !important;
     padding: 0.8em 1em !important;
     font-size: 14px !important;
-    margin-bottom: 0.5em;
     min-height: 45px !important;
-    width: 100% !important;
+    box-sizing: border-box !important;
 
       select {
             font: 400 12px/1.3 sans-serif;
