@@ -11,12 +11,14 @@
 **Solution:** Standardized local development to always use port 3000 with automatic process cleanup.
 
 **Files Modified:**
+
 - [package.json](package.json) - Updated dev scripts
 - [scripts/kill-port.js](scripts/kill-port.js) - Created port management utility
 - [CLAUDE.md](CLAUDE.md) - Updated documentation
 - [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) - Created comprehensive guide
 
 **New Commands:**
+
 ```bash
 npm run dev              # Run on port 3000 (auto-kills existing process)
 npm run dev:vercel       # Run with Vercel environment on port 3000
@@ -26,6 +28,7 @@ npm run dev:legacy       # Run on legacy port 1124 if needed
 ### 2. Atlas Chat Widget Styled-Components Error Fix
 
 **Problem:** Atlas chat widget was causing a styled-components error in development:
+
 ```
 Error: An error occurred. See https://github.com/styled-components/styled-components/blob/main/packages/styled-components/src/utils/errors.md#17
 ```
@@ -33,6 +36,7 @@ Error: An error occurred. See https://github.com/styled-components/styled-compon
 This error (#17) means: "CSSStyleSheet could not be found on HTMLStyleElement" - the Atlas widget's internal styled-components were interfering with the application's style management.
 
 **Root Cause:**
+
 - Atlas widget uses styled-components internally
 - Loading strategy caused conflicts with Next.js SSR and style sheet management
 - Widget initialization timing issues during hydration
@@ -40,20 +44,24 @@ This error (#17) means: "CSSStyleSheet could not be found on HTMLStyleElement" -
 **Solutions Implemented:**
 
 #### A. Improved Loading Strategy
+
 - Changed Atlas script loading from `afterInteractive` to `lazyOnload`
 - Added error boundaries around Atlas initialization
 - Deferred Atlas initialization using `requestIdleCallback`
 - Added proper DOM ready checks before initialization
 
 #### B. Development Toggle (Recommended)
+
 Added environment variable to disable Atlas in development mode:
 
 **Files Modified:**
+
 - [.env.local](.env.local) - Added `NEXT_PUBLIC_ENABLE_ATLAS=false`
 - [next.config.mjs](next.config.mjs) - Added to runtime config
-- [pages/_app.js](pages/_app.js) - Updated Atlas loading logic
+- [pages/\_app.js](pages/_app.js) - Updated Atlas loading logic
 
 **Usage:**
+
 ```bash
 # In .env.local
 NEXT_PUBLIC_ENABLE_ATLAS=false   # Disable Atlas (no errors in dev)
@@ -65,12 +73,14 @@ NEXT_PUBLIC_ENABLE_ATLAS=true    # Enable Atlas (for testing chat widget)
 **Created:** [scripts/kill-port.js](scripts/kill-port.js)
 
 **Features:**
+
 - Cross-platform support (macOS, Linux, Windows)
 - Handles multiple processes on the same port
 - Clear console feedback
 - Error handling for edge cases
 
 **Usage:**
+
 ```bash
 node scripts/kill-port.js 3000    # Kill process on port 3000
 node scripts/kill-port.js 8080    # Kill process on any port
@@ -81,12 +91,14 @@ node scripts/kill-port.js 8080    # Kill process on any port
 **New Script:** `npm run dev:vercel`
 
 **Benefits:**
+
 - Runs with Vercel's exact serverless environment
 - Automatically syncs environment variables from Vercel project
 - Tests edge functions and middleware locally
 - Simulates production deployment environment
 
 **Setup:**
+
 ```bash
 # One-time setup
 vercel link                       # Link to your Vercel project
@@ -99,11 +111,13 @@ npm run dev:vercel                # Run with Vercel environment
 ## Testing Results
 
 ### Before Fixes:
+
 - ❌ Styled-components error on every page load
 - ❌ "Port already in use" errors requiring manual cleanup
 - ❌ Inconsistent port usage across different commands
 
 ### After Fixes:
+
 - ✅ No styled-components errors (Atlas disabled in dev)
 - ✅ Automatic port cleanup on every dev start
 - ✅ Consistent development on port 3000
@@ -126,11 +140,13 @@ The following warnings are informational and do not affect functionality:
 ## Recommendations
 
 ### For Daily Development:
+
 ```bash
 npm run dev                       # Standard development (Atlas disabled)
 ```
 
 ### For Testing Chat Widget:
+
 ```bash
 # 1. Enable Atlas in .env.local
 NEXT_PUBLIC_ENABLE_ATLAS=true
@@ -140,6 +156,7 @@ npm run dev
 ```
 
 ### For Production-like Testing:
+
 ```bash
 npm run dev:vercel                # Test with Vercel environment
 ```

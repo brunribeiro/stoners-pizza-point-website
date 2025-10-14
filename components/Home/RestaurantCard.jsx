@@ -103,7 +103,7 @@ const RestaurantCard = ({
         return (
           <div
             className={` w-full flex flex-col rounded-[22px] border-[3px] mx-0 hover:shadow-lg duration-300 ${
-              rest.id === localRestId || isChange ? 'border-primary' : 'border-light-border'
+              rest.id === localRestId ? 'border-primary' : 'border-light-border'
             } cursor-pointer mb-4 p-3 px-[19px] pb-5 xl:px-7 bg-white ${index === 0 && 'mt-[10px]'}`}
             key={rest.id}
             onClick={() => handleSelectStore(rest)}
@@ -194,8 +194,10 @@ const RestaurantCard = ({
 
                       // Always show open/closed status if currOpen is defined
                       if (rest.currOpen !== undefined) {
-                        const startTime = todayHours ? formatTime(todayHours.start) : null;
-                        const endTime = todayHours ? formatTime(todayHours.end) : null;
+                        const startTime =
+                          todayHours && todayHours.start ? formatTime(todayHours.start) : null;
+                        const endTime =
+                          todayHours && todayHours.end ? formatTime(todayHours.end) : null;
 
                         return (
                           <div className='flex items-center gap-2 text-sm py-1 capitalize'>
