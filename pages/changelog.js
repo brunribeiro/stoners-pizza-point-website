@@ -1,9 +1,15 @@
-<!DOCTYPE html>
+export default function Changelog() {
+    return (
+        <div dangerouslySetInnerHTML={{ __html: changelogHTML }} />
+    );
+}
+
+const changelogHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stoner’s Pizza Joint — Performance & Improvements Report (Oct 13, 2025)</title>
+<title>Stoner's Pizza Joint — Performance & Improvements Report (Oct 13, 2025)</title>
 <style>
 :root {
   --bg: #f8fafc;
@@ -58,7 +64,7 @@ footer { text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 
 <body>
 <div class="wrap">
   <header>
-    <h1>🍕 Stoner’s Pizza Joint — Performance & Improvements Report</h1>
+    <h1>🍕 Stoner's Pizza Joint — Performance & Improvements Report</h1>
     <div class="sub">Date: Oct 13, 2025 • Project: Next.js Website • Total Commits Analyzed: 46 • Period: Initial deployment → current optimizations</div>
     <div class="hr"></div>
   </header>
@@ -187,4 +193,5 @@ footer { text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 
   </footer>
 </div>
 </body>
-</html>
+</html>`;
+
