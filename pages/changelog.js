@@ -421,19 +421,28 @@ footer strong {
 
 .pagespeed-link {
   display: block;
-  padding: 16px 20px;
+  padding: 20px 24px;
   background: var(--bg);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   text-decoration: none;
   color: var(--ink);
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
 }
 
 .pagespeed-link:hover {
   border-color: var(--ink);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.pagespeed-link:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .pagespeed-link .label {
@@ -454,6 +463,19 @@ footer strong {
   margin-top: 4px;
   font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace;
 }
+
+.pagespeed-link .main-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.pagespeed-link .speed-icon {
+  font-size: 18px;
+  opacity: 0.8;
+}
 `;
 
 const changelogHTML = `
@@ -473,12 +495,18 @@ const changelogHTML = `
     <div class="pagespeed-links">
       <a href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fstonerspizza.app" target="_blank" rel="noopener noreferrer" class="pagespeed-link">
         <span class="label">Before</span>
-        Analyze Original Site
+        <div class="main-text">
+          <span class="lnr lnr-dashboard speed-icon"></span>
+          Analyze Original Site
+        </div>
         <span class="url">stonerspizza.app</span>
       </a>
       <a href="https://pagespeed.web.dev/analysis?url=http%3A%2F%2Fstoners-pizza-web.vercel.app" target="_blank" rel="noopener noreferrer" class="pagespeed-link">
         <span class="label">After</span>
-        Analyze Optimized Site
+        <div class="main-text">
+          <span class="lnr lnr-dashboard speed-icon"></span>
+          Analyze Optimized Site
+        </div>
         <span class="url">stoners-pizza-web.vercel.app</span>
       </a>
     </div>
