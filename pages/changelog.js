@@ -60,11 +60,13 @@ h1, h2, h3, h4 {
 .icon {
   margin-right: 8px;
   font-size: 0.9em;
+  color: var(--ink);
   opacity: 0.8;
 }
 
 section h2 .icon {
   font-size: 0.85em;
+  color: var(--ink);
 }
 
 /* Header */
@@ -407,6 +409,10 @@ footer strong {
   color: var(--ink);
 }
 
+.pagespeed-section h3 .icon {
+  color: var(--ink);
+}
+
 .pagespeed-links {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -474,6 +480,7 @@ footer strong {
 
 .pagespeed-link .speed-icon {
   font-size: 18px;
+  color: var(--ink);
   opacity: 0.8;
 }
 `;
