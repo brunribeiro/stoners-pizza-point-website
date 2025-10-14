@@ -1,67 +1,309 @@
+import Head from 'next/head';
+
 export default function Changelog() {
-    return (
-        <div dangerouslySetInnerHTML={{ __html: changelogHTML }} />
-    );
+  return (
+    <>
+      <Head>
+        <title>Stoner&apos;s Pizza Joint — Performance & Improvements Report</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <style jsx global>{changelogCSS}</style>
+      <div dangerouslySetInnerHTML={{ __html: changelogHTML }} />
+    </>
+  );
 }
 
-const changelogHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stoner's Pizza Joint — Performance & Improvements Report (Oct 13, 2025)</title>
-<style>
+const changelogCSS = `
 :root {
   --bg: #f8fafc;
   --panel: #ffffff;
   --ink: #0f172a;
-  --muted: #475569;
+  --muted: #64748b;
   --border: #e2e8f0;
   --soft: rgba(15,23,42,.04);
-  --shadow: 0 10px 24px rgba(0,0,0,.05);
+  --shadow: 0 4px 20px rgba(0,0,0,.08);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,.12);
+  --accent: #0f172a;
+  --green: #10b981;
+  --blue: #3b82f6;
+  --purple: #8b5cf6;
 }
 * { box-sizing: border-box; }
 html, body {
   margin:0; padding:0;
   background:var(--bg);
   color:var(--ink);
-  font: 15px/1.65 "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 18px/1.7 "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
-.wrap { max-width: 1080px; margin: 56px auto 96px; padding: 0 24px; }
-header { text-align: left; margin-bottom: 22px; }
-header h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.015em; }
-.sub { color: var(--muted); font-size: 14px; }
-.hr { height:1px; background: var(--border); margin: 20px 0; opacity: .75; }
+.wrap { max-width: 1400px; margin: 48px auto 80px; padding: 0 32px; }
 
-.grid { display: grid; gap: 14px; grid-template-columns: repeat(12, 1fr); }
-.kpi { grid-column: span 4; background: var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow: var(--shadow); }
-.kpi h2 { margin: 4px 0 2px; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
-.kpi .l { color: var(--muted); font-size: 12px; display:flex; gap:8px; align-items:center; }
-@media (max-width: 860px) { .kpi { grid-column: span 6; } }
-@media (max-width: 560px) { .kpi { grid-column: span 12; } }
+/* Header */
+header { text-align: center; margin-bottom: 56px; padding: 48px 0; }
+header h1 { 
+  margin: 0 0 16px; 
+  font-size: 56px; 
+  font-weight: 900; 
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.sub { 
+  color: var(--muted); 
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.hr { height:2px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 32px 0; opacity: .5; }
 
-section { background: var(--panel); border:1px solid var(--border); border-radius:16px; padding:22px; margin-top:18px; box-shadow: var(--shadow); }
-section h2 { margin:0 0 10px; font-size:18px; display:flex; align-items:center; gap:8px; }
-.two { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
-@media (max-width: 840px) { .two { grid-template-columns: 1fr; } }
-p.lead { margin:6px 0 0; color: var(--muted); }
-ul { margin:6px 0 0 1.25rem; padding:0; }
-li { margin:3px 0; }
-code, .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--soft); padding: 1px 6px; border-radius: 6px; font-size: 12.5px; }
+/* KPI Grid */
+.grid { 
+  display: grid; 
+  gap: 24px; 
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+  margin-bottom: 48px;
+}
+.kpi { 
+  background: var(--panel); 
+  border: 2px solid var(--border); 
+  border-radius: 20px; 
+  padding: 32px 28px; 
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.kpi:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.kpi::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--accent), var(--muted));
+  opacity: 0.6;
+}
+.kpi .l { 
+  color: var(--muted); 
+  font-size: 15px; 
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kpi h2 { 
+  margin: 0 0 12px; 
+  font-size: 48px; 
+  font-weight: 900; 
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--ink), var(--muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.kpi .improvement {
+  color: var(--green);
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-table { width:100%; border-collapse: collapse; margin-top: 8px; }
-th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); }
-th { color: var(--muted); font-weight: 600; font-size: 12.5px; }
-tfoot td { color: var(--muted); font-size: 12.5px; }
-.small { font-size: 12.5px; color: var(--muted); }
-.block { border:1px dashed var(--border); padding:10px 12px; border-radius: 12px; background: transparent; }
+/* Executive Summary - Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--ink) 0%, #1e293b 100%);
+  color: white;
+  border-radius: 24px;
+  padding: 56px 48px;
+  margin-bottom: 48px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero h2 {
+  margin: 0 0 24px;
+  font-size: 42px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+.hero p.lead {
+  font-size: 22px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.9);
+  margin: 0 0 32px;
+  max-width: 1000px;
+  position: relative;
+}
+.hero .chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+  position: relative;
+}
+.hero .chip {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+  text-align: center;
+  transition: all 0.2s;
+}
+.hero .chip:hover {
+  background: rgba(255,255,255,0.18);
+  transform: scale(1.02);
+}
 
-.chips { display:flex; flex-wrap:wrap; gap:8px; margin-top: 8px; }
-.chip { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12.5px; display:inline-flex; align-items:center; gap:6px; background: var(--panel); }
-footer { text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 18px; }
-</style>
-</head>
-<body>
+/* Sections */
+section { 
+  background: var(--panel); 
+  border: 2px solid var(--border); 
+  border-radius: 24px; 
+  padding: 48px 40px; 
+  margin-top: 32px; 
+  box-shadow: var(--shadow);
+}
+section h2 { 
+  margin: 0 0 32px; 
+  font-size: 36px; 
+  font-weight: 900;
+  display: flex; 
+  align-items: center; 
+  gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--border);
+}
+section h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 20px;
+  color: var(--ink);
+}
+.two { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 40px; 
+}
+@media (max-width: 1024px) { 
+  .two { grid-template-columns: 1fr; } 
+  .hero { padding: 40px 32px; }
+  header h1 { font-size: 42px; }
+}
+p.lead { margin: 12px 0 0; color: var(--muted); font-size: 19px; }
+ul { 
+  margin: 16px 0 0 0; 
+  padding: 0;
+  list-style: none;
+}
+li { 
+  margin: 0 0 16px 0; 
+  padding-left: 32px;
+  position: relative;
+  font-size: 17px;
+  line-height: 1.7;
+}
+li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  font-weight: 900;
+  color: var(--accent);
+  font-size: 20px;
+}
+code, .kbd { 
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; 
+  background: var(--soft); 
+  padding: 3px 8px; 
+  border-radius: 6px; 
+  font-size: 14px;
+  border: 1px solid var(--border);
+  font-weight: 600;
+}
+
+/* Table */
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 24px;
+  font-size: 17px;
+}
+th, td { 
+  text-align: left; 
+  padding: 18px 16px; 
+  border-bottom: 1px solid var(--border); 
+}
+th { 
+  color: var(--ink); 
+  font-weight: 800; 
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--soft);
+}
+td {
+  font-size: 17px;
+}
+tbody tr:hover {
+  background: var(--soft);
+}
+tfoot td { color: var(--muted); font-size: 15px; }
+
+/* Timeline */
+.timeline {
+  margin-top: 24px;
+}
+.timeline li {
+  padding: 20px 24px 20px 56px;
+  background: var(--soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.timeline li::before {
+  content: '●';
+  left: 20px;
+  font-size: 24px;
+}
+
+footer { 
+  text-align: center; 
+  color: var(--muted); 
+  font-size: 15px; 
+  margin-top: 64px; 
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+`;
+
+const changelogHTML = `
 <div class="wrap">
   <header>
     <h1>🍕 Stoner's Pizza Joint — Performance & Improvements Report</h1>
@@ -69,18 +311,9 @@ footer { text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 
     <div class="hr"></div>
   </header>
 
-  <div class="grid">
-    <div class="kpi"><div class="l">⏱ LCP</div><h2>491ms</h2><div class="l">↓ 71.7% (from 1,733ms)</div></div>
-    <div class="kpi"><div class="l">⚡ TTFB</div><h2>42ms</h2><div class="l">↓ 96.8% (from 1,320ms)</div></div>
-    <div class="kpi"><div class="l">📦 First Load JS</div><h2>259KB</h2><div class="l">↓ 43% (from 457KB)</div></div>
-    <div class="kpi"><div class="l">📐 CLS</div><h2>~0</h2><div class="l">was 0.106</div></div>
-    <div class="kpi"><div class="l">♿ Accessibility</div><h2>100</h2><div class="l">WCAG-compliant</div></div>
-    <div class="kpi"><div class="l">🔒 Security</div><h2>A+</h2><div class="l">strict headers</div></div>
-  </div>
-
-  <section>
+  <div class="hero">
     <h2>🧭 Executive Summary</h2>
-    <p class="lead">Comprehensive performance optimization and bug-fix initiative that transformed the website into a fast, accessible, and production-ready Next.js app. The work encompassed performance, accessibility, UX, and security.</p>
+    <p class="lead">Comprehensive performance optimization and bug-fix initiative that transformed the website into a fast, accessible, and production-ready Next.js app. The work encompassed performance, accessibility, UX, and security enhancements across the entire codebase.</p>
     <div class="chips">
       <span class="chip">🚀 LCP: 1,733 → 491ms</span>
       <span class="chip">⚡ TTFB: 1,320 → 42ms</span>
@@ -89,7 +322,40 @@ footer { text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 
       <span class="chip">🔒 Security: A+</span>
       <span class="chip">✅ React warnings: 0</span>
     </div>
-  </section>
+  </div>
+
+  <div class="grid">
+    <div class="kpi">
+      <div class="l">⏱ LCP (Largest Contentful Paint)</div>
+      <h2>491ms</h2>
+      <div class="improvement">↓ 71.7% from 1,733ms</div>
+    </div>
+    <div class="kpi">
+      <div class="l">⚡ TTFB (Time to First Byte)</div>
+      <h2>42ms</h2>
+      <div class="improvement">↓ 96.8% from 1,320ms</div>
+    </div>
+    <div class="kpi">
+      <div class="l">📦 First Load JS Bundle</div>
+      <h2>259KB</h2>
+      <div class="improvement">↓ 43% from 457KB</div>
+    </div>
+    <div class="kpi">
+      <div class="l">📐 CLS (Cumulative Layout Shift)</div>
+      <h2>~0</h2>
+      <div class="improvement">Improved from 0.106</div>
+    </div>
+    <div class="kpi">
+      <div class="l">♿ Accessibility Score</div>
+      <h2>100</h2>
+      <div class="improvement">WCAG AA Compliant</div>
+    </div>
+    <div class="kpi">
+      <div class="l">🔒 Security Rating</div>
+      <h2>A+</h2>
+      <div class="improvement">Strict Headers Enforced</div>
+    </div>
+  </div>
 
   <section>
     <h2>⚙️ Core Improvements</h2>
@@ -155,7 +421,7 @@ footer { text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 
 
   <section>
     <h2>🗓️ Timeline & Impact</h2>
-    <ul>
+    <ul class="timeline">
       <li><b>Phase 1:</b> Initial deployment, pnpm setup, API refactor.</li>
       <li><b>Phase 2:</b> Bundle -14%, font & CLS fixes, WebP conversion.</li>
       <li><b>Phase 3:</b> reCAPTCHA singleton, API dedupe, Maps optimization.</li>
@@ -192,6 +458,5 @@ footer { text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 
     Prepared by: Claude Code (AI Assistant) • Reviewed by: Development Team • Last Updated: Oct 13, 2025
   </footer>
 </div>
-</body>
-</html>`;
+`;
 
