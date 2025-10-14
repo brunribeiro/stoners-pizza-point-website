@@ -379,6 +379,69 @@ footer strong {
   color: var(--ink);
   font-weight: 600;
 }
+
+/* PageSpeed Links */
+.pagespeed-section {
+  background: var(--subtle);
+  border: 1px solid var(--border);
+  padding: 24px 32px;
+  margin-bottom: 60px;
+}
+
+.pagespeed-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: var(--ink);
+}
+
+.pagespeed-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .pagespeed-links {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pagespeed-link {
+  display: block;
+  padding: 16px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.pagespeed-link:hover {
+  border-color: var(--ink);
+}
+
+.pagespeed-link .label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.pagespeed-link .url {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace;
+}
 `;
 
 const changelogHTML = `
@@ -392,6 +455,22 @@ const changelogHTML = `
       <strong>Commits Analyzed:</strong> 46
     </div>
   </header>
+
+  <div class="pagespeed-section">
+    <h3>Live Performance Analysis</h3>
+    <div class="pagespeed-links">
+      <a href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fstonerspizza.app" target="_blank" rel="noopener noreferrer" class="pagespeed-link">
+        <span class="label">Before</span>
+        Analyze Original Site
+        <span class="url">stonerspizza.app</span>
+      </a>
+      <a href="https://pagespeed.web.dev/analysis?url=http%3A%2F%2Fstoners-pizza-web.vercel.app" target="_blank" rel="noopener noreferrer" class="pagespeed-link">
+        <span class="label">After</span>
+        Analyze Optimized Site
+        <span class="url">stoners-pizza-web.vercel.app</span>
+      </a>
+    </div>
+  </div>
 
   <div class="summary">
     <h2>Executive Summary</h2>
