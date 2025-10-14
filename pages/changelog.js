@@ -7,7 +7,6 @@ export default function Changelog() {
       <Head>
         <title>Stoner&apos;s Pizza Joint — Performance & Improvements Report</title>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='stylesheet' href='https://cdn.linearicons.com/free/1.0.0/icon-font.min.css' />
       </Head>
       {/* eslint-disable-next-line react/no-unknown-property */}
       <style jsx global>
@@ -498,12 +497,12 @@ const changelogHTML = `
   </header>
 
   <div class="pagespeed-section">
-    <h3><span class="lnr lnr-chart-bars icon"></span>Live Performance Analysis</h3>
+    <h3><span class="icon">📊</span>Live Performance Analysis</h3>
     <div class="pagespeed-links">
       <a href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fstonerspizza.app" target="_blank" rel="noopener noreferrer" class="pagespeed-link">
         <span class="label">Before</span>
         <div class="main-text">
-          <span class="lnr lnr-dashboard speed-icon"></span>
+          <span class="speed-icon">🚂</span>
           Analyze Original Site
         </div>
         <span class="url">stonerspizza.app</span>
@@ -511,7 +510,7 @@ const changelogHTML = `
       <a href="https://pagespeed.web.dev/analysis?url=http%3A%2F%2Fstoners-pizza-web.vercel.app" target="_blank" rel="noopener noreferrer" class="pagespeed-link">
         <span class="label">After</span>
         <div class="main-text">
-          <span class="lnr lnr-dashboard speed-icon"></span>
+          <span class="speed-icon">🚀</span>
           Analyze Optimized Site
         </div>
         <span class="url">stoners-pizza-web.vercel.app</span>
@@ -585,7 +584,7 @@ const changelogHTML = `
   </div>
 
   <section>
-    <h2><span class="lnr lnr-rocket icon"></span>Performance Metrics Comparison</h2>
+    <h2><span class="icon">⚡</span>Performance Metrics Comparison</h2>
     <table>
       <thead>
         <tr>
@@ -637,7 +636,7 @@ const changelogHTML = `
   </section>
 
   <section>
-    <h2><span class="lnr lnr-database icon"></span>Dependencies Removed</h2>
+    <h2><span class="icon">📦</span>Dependencies Removed</h2>
     <p class="lead">
       Strategic removal of heavy and unused dependencies to reduce bundle size and improve performance.
       All removals were implemented with alternative solutions to maintain functionality.
@@ -695,7 +694,7 @@ const changelogHTML = `
   </section>
 
   <section>
-    <h2><span class="lnr lnr-cog icon"></span>Core Performance Optimizations</h2>
+    <h2><span class="icon">⚙️</span>Core Performance Optimizations</h2>
 
     <h3>Critical Rendering Path</h3>
     <ul>
@@ -723,7 +722,7 @@ const changelogHTML = `
   </section>
 
   <section>
-    <h2><span class="lnr lnr-license icon"></span>User Experience & Accessibility</h2>
+    <h2><span class="icon">✨</span>User Experience & Accessibility</h2>
 
     <div class="two-col">
       <div>
@@ -751,7 +750,7 @@ const changelogHTML = `
   </section>
 
   <section>
-    <h2><span class="lnr lnr-lock icon"></span>Security & Infrastructure</h2>
+    <h2><span class="icon">🔒</span>Security & Infrastructure</h2>
 
     <div class="two-col">
       <div>
@@ -777,7 +776,7 @@ const changelogHTML = `
   </section>
 
   <section>
-    <h2><span class="lnr lnr-history icon"></span>Development Timeline</h2>
+    <h2><span class="icon">📅</span>Development Timeline</h2>
     <ul class="timeline">
       <li>
         <div class="phase-title">Phase 1: Foundation & Setup</div>
@@ -803,7 +802,7 @@ const changelogHTML = `
   </section>
 
   <section>
-    <h2><span class="lnr lnr-chart-growth icon"></span>Business Impact</h2>
+    <h2><span class="icon">📈</span>Business Impact</h2>
     <p class="lead">Measurable improvements across key business metrics and operational efficiency.</p>
 
     <div class="item-grid">
@@ -840,7 +839,7 @@ const changelogHTML = `
   </section>
 
   <section>
-    <h2><span class="lnr lnr-eye icon"></span>Next Steps & Monitoring</h2>
+    <h2><span class="icon">👁️</span>Next Steps & Monitoring</h2>
 
     <div class="two-col">
       <div>
