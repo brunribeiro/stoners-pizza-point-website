@@ -10,7 +10,11 @@ import useRewards from '@/hook/rewards/useRewards';
 
 const ProfileDropDown = ({ loginData, setOpenPopup = () => {} }) => {
   const Name = LocalStorage.get('UserName');
-  const { loyaltyData } = useRewards(true);
+  const { loyaltyData, loader } = useRewards(true);
+
+  // Fallback to 0 if points are not available
+  const displayPoints = loyaltyData?.confirmedPoints ?? 0;
+
   return (
     <div className='relative group py-[6px] hover:cursor-pointer'>
       <div className='flex items-center gap-2'>
@@ -20,7 +24,7 @@ const ProfileDropDown = ({ loginData, setOpenPopup = () => {} }) => {
             <div>
               Hi, {Name || loginData?.firstName}{' '}
               <div className='font-normal text-end -mt-[6px] text-stone-black'>
-                {loyaltyData?.confirmedPoints?.toLocaleString()} pts
+                {loader ? '...' : `${displayPoints.toLocaleString()} pts`}
               </div>
             </div>
             <DownIcon size='18' className='' />

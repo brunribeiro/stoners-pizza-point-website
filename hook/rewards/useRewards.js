@@ -39,7 +39,7 @@ const useRewards = (fromHeader = false) => {
       setLoyaltyData(data);
     } catch (error) {
       console.error('Error fetching loyalty data:', error);
-      setLoyaltyData();
+      // Don't clear loyaltyData on error - preserve last known value
     } finally {
       loyaltyLoadState.loading = false;
       setLoader(false);
@@ -57,8 +57,8 @@ const useRewards = (fromHeader = false) => {
       const { data } = await commonApi({ action: 'getRewardHistory', data: payload });
       setHistory(data);
     } catch (error) {
-      console.error('Error fetching loyalty data:', error);
-      setHistory();
+      console.error('Error fetching reward history:', error);
+      // Don't clear history on error - preserve last known value
     } finally {
       setLoader(false);
     }
@@ -72,7 +72,7 @@ const useRewards = (fromHeader = false) => {
     } else {
       getRewardHistory();
     }
-  }, [loginData?.userId, fromHeader]);
+  }, [loginData?.userId, fromHeader, callLoyalty, getRewardHistory]);
 
   return { loader, callLoyalty, loyaltyData, showHistory, setShowHistory, history };
 };

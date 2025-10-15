@@ -24,7 +24,7 @@ const CategoryCard = ({ className = '', name = '', price = '', onClick, img = DE
           width={300}
           height={300}
           alt={name}
-          className={`absolute top-0 left-0 w-full h-[200px] sm:h-[250px] object-cover transition-opacity duration-300 ease-in-out ${
+          className={`absolute top-0 left-0 w-full h-[200px] sm:h-[250px] object-cover transition-all duration-300 ease-in-out hover:scale-105 ${
             isLoading ? 'opacity-100' : 'opacity-0'
           }`}
           title={name}
@@ -36,7 +36,7 @@ const CategoryCard = ({ className = '', name = '', price = '', onClick, img = DE
           width={300}
           height={300}
           alt={name}
-          className={`absolute top-0 left-0 w-full h-[200px] sm:h-[250px] object-cover transition-opacity duration-300 ease-in-out ${
+          className={`absolute top-0 left-0 w-full h-[200px] sm:h-[250px] object-cover transition-all duration-300 ease-in-out hover:scale-105 ${
             isLoading ? 'opacity-0' : 'opacity-100'
           }`}
           title={name}
