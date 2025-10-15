@@ -349,7 +349,7 @@ const SelectedItem = ({ pageProps }) => {
           </div>
         }
       >
-        <div id='nestedDiv'>
+        <div id='nestedDiv' className='max-h-[60vh] overflow-y-auto'>
           {newNestedState?.option_groups?.map((group, groupIndex) => {
             const newGroup = group;
             // const isRequired = group?.isReq;

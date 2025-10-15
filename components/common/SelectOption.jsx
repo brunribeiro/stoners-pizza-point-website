@@ -43,7 +43,7 @@ const SelectOption = React.forwardRef(
         {groupData?.modifiers?.length ? (
           <div className='mb-4' ref={ref}>
             <button
-              className={`flex w-full px-4 sm:px-2 items-center gap-4 bg-primary-light py-3 cursor-pointer justify-between ${
+              className={`flex w-full px-4 sm:px-2 items-center gap-4 bg-primary-light py-3 cursor-pointer justify-between sticky top-0 z-10 ${
                 isNested && 'flex-col !gap-0 !items-start !px-8 !bg-white pt-8 pb-2'
               }`}
               onClick={!isNested ? toggleCollapse : undefined}
