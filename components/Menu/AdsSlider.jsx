@@ -1,13 +1,16 @@
 import React, { useRef } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import useInbox from '../Inbox/hooks/useInbox';
 
 import { DEFAULT_IMAGE, KEYS } from '@/utils/constant';
 import RightArrowIcon from '@/icons/rightArrowIcon';
 import { LocalStorage } from '@/utils/localStorage';
+import routes from '@/utils/routes';
 
 const AdsSlider = ({ vertical = false }) => {
+  const router = useRouter();
   const { offerList, loader, customOfferList, handleCustomRewards } = useInbox({
     loadOffer: true,
   });
@@ -103,19 +106,29 @@ const AdsSlider = ({ vertical = false }) => {
           {/* Regular offers */}
           {offerList?.map((ad) => (
             <div key={ad.id} className={vertical ? 'w-full' : 'flex-shrink-0'}>
-              <div
-                className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
-                  vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
-                }`}
+              <button
+                onClick={() => {
+                  const { diningOption, rest } = router.query;
+                  if (diningOption && rest) {
+                    router.push(routes.deals);
+                  }
+                }}
+                className='block w-full'
               >
-                <Image
-                  src={ad.mediumImage || DEFAULT_IMAGE}
-                  alt={ad.title}
-                  title={ad.title}
-                  fill
-                  className='object-cover bg-gray-200'
-                />
-              </div>
+                <div
+                  className={`relative rounded-2xl overflow-hidden duration-300 bg-primary-light hover:scale-105 transition-transform ${
+                    vertical ? 'w-full h-[130px]' : 'w-[232px] h-[130px]'
+                  }`}
+                >
+                  <Image
+                    src={ad.mediumImage || DEFAULT_IMAGE}
+                    alt={ad.title}
+                    title={ad.title}
+                    fill
+                    className='object-cover bg-gray-200'
+                  />
+                </div>
+              </button>
             </div>
           ))}
         </div>
