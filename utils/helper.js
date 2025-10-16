@@ -49,6 +49,12 @@ const handleRefreshToken = async () => {
       setCookie(KEYS.EXPIRES, Math.floor(Date.now() / 1000) + response?.data?.data.expires_in / 10);
     } catch (error) {
       console.error('Error refreshing token: ', error);
+      // Clear invalid cookies on refresh failure to prevent navigation hangs
+      if (error?.response?.status === 401) {
+        setCookie(KEYS.REFRESHTOKEN, null, { maxAge: -1 });
+        setCookie(KEYS.TOKEN, null, { maxAge: -1 });
+        setCookie(KEYS.EXPIRES, null, { maxAge: -1 });
+      }
     }
   }
 };
